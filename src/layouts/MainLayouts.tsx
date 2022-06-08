@@ -8,6 +8,7 @@ import styles from './MainLayouts.module.scss'
 
 interface MainLayoutProps {
     hideComments?: boolean;
+    hideLeftMenu?: boolean;
     contentFullWidth?: boolean;
     className?: string;
     children: ReactNode
@@ -15,16 +16,16 @@ interface MainLayoutProps {
 
 
 export const MainLayout = (props: MainLayoutProps): ReactElement => {
-    const {hideComments, contentFullWidth, className, children} = props
+    const {hideComments, contentFullWidth, className, children, hideLeftMenu} = props
 
     return (
         <div className={clsx(styles.wrapper, className)}>
-            <div className="leftSide">
+            {!hideLeftMenu && <div >
                 <LeftMenu/>
-            </div>
+            </div>}
             <div className={clsx(styles.content, {'content--full': contentFullWidth})}>{children}</div>
             {!hideComments && (
-                <div className="rightSide">
+                <div >
                     <SideComments/>
                 </div>
             )}

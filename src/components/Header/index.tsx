@@ -35,10 +35,12 @@ export const Header: React.FC = () => {
                     <SearchIcon/>
                     <input placeholder="Поиск"/>
                 </div>
+                <Link href={'/write'}>
+                    <Button variant="contained" className={styles.penButton}>
+                        Новая запись
+                    </Button>
+                </Link>
 
-                <Button variant="contained" className={styles.penButton}>
-                    Новая запись
-                </Button>
             </div>
             <div className="d-flex align-center">
                 <IconButton>
