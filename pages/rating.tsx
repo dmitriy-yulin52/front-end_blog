@@ -11,7 +11,6 @@ import {
 } from '@material-ui/core';
 import {MainLayout} from "../src/layouts/MainLayouts";
 import {FollowButton} from "../src/components/FollowButton";
-import styles from './rating.module.scss'
 
 
 const typography_style = {
@@ -24,7 +23,7 @@ const typography_font_size = {
 export default function Rating() {
   return (
     <MainLayout>
-      <Paper className={styles.paper} elevation={0}>
+      <Paper className="pl-20 pt-20 pr-20 mb-20" elevation={0}>
         <Typography variant="h5" style={typography_style}>
           Рейтинг сообществ и блогов
         </Typography>
@@ -32,7 +31,7 @@ export default function Rating() {
           Десять лучших авторов и комментаторов, а также администраторы первых десяти сообществ из
           рейтинга по итогам месяца бесплатно получают Plus-аккаунт на месяц.
         </Typography>
-        <Tabs className={styles.tabs} value={0} indicatorColor="primary" textColor="primary">
+        <Tabs className="mt-10" value={0} indicatorColor="primary" textColor="primary">
           <Tab label="Август" />
           <Tab label="За 3 месяца" />
           <Tab label="За всё время" />
@@ -51,7 +50,7 @@ export default function Rating() {
           <TableBody>
             <TableRow>
               <TableCell component="th" scope="row">
-                <span className={styles.span}>1</span>Вася Пупкин
+                <span className="mr-15">1</span>Вася Пупкин
               </TableCell>
               <TableCell align="right">540</TableCell>
               <TableCell align="right">
