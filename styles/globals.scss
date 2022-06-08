@@ -1,5 +1,6 @@
 html,
 body {
+    height: 100%;
     padding: 0;
     margin: 0;
     background-color: #f2f2f2 !important;
@@ -17,7 +18,19 @@ a {
     box-sizing: border-box;
     outline: none;
     font-family: Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+
 }
 
+.writePage{
+    background-color: #fff;
+    height: 100%;
+}
 
+#__next{
+    height: 100%
+}
+
+.writePage_mainLayout{
+    background-color: #fff;
+}
 
