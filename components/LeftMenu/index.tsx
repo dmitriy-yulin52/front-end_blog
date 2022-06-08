@@ -9,10 +9,10 @@ import {
 import styles from './LeftMenu.module.scss';
 
 const menu = [
-  { text: 'Лента', icon: <FireIcon />, path: '/' },
-  { text: 'Сообщения', icon: <MessageIcon />, path: '/' },
-  { text: 'Рейтинг RJ', icon: <TrendingIcon />, path: '/' },
-  { text: 'Подписки', icon: <ListIcon />, path: '/' },
+  { text: 'Лента', icon: <FireIcon />, path: '/lenta' },
+  { text: 'Сообщения', icon: <MessageIcon />, path: '/message' },
+  { text: 'Рейтинг RJ', icon: <TrendingIcon />, path: '/rating' },
+  { text: 'Подписки', icon: <ListIcon />, path: '/subscribe' },
 ];
 
 export const LeftMenu: React.FC = () => {
