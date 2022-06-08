@@ -46,7 +46,7 @@ export const FullPost = () => {
                     <div className="d-flex justify-between align-center mt-30 mb-30">
                         <div className={styles.userInfo}>
                             <img
-                                src="src/components/FullPost/index"
+                                src="https://avatarko.ru/img/kartinka/1/avatarko_anonim.jpg"
                                 alt="Avatar"
                             />
                             <b>Donnie Darko</b>

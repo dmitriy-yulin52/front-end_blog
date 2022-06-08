@@ -22,7 +22,7 @@ export const Header: React.FC = () => {
                 <IconButton>
                     <MenuIcon/>
                 </IconButton>
-                <Link href="/pages">
+                <Link href="/">
                     <a>
                         <svg className={styles.logo} viewBox="0 0 24 25">
                             <path fill="#e8a427" d="M0 19h8.5v6H0v-6z"></path>

@@ -28,7 +28,7 @@ export const Comment = memo(function Comment(props: CommentPostProps):ReactEleme
         <div className={styles.comment}>
             <div className={styles.userInfo}>
                 <img
-                    src="src/components/Comment/index"
+                    src="https://avatarko.ru/img/kartinka/1/avatarko_anonim.jpg"
                     alt="Avatar"
                 />
                 <b>Master Oogway</b>
