@@ -1,83 +1,93 @@
-import {ReactElement} from "react";
 import Link from 'next/link';
-import {Paper, Avatar, Typography, Button, Tabs, Tab, Box} from '@material-ui/core';
+import {Paper, Avatar, Typography, Button, Tabs, Tab} from '@material-ui/core';
 import {
     SettingsOutlined as SettingsIcon,
     TextsmsOutlined as MessageIcon,
 } from '@material-ui/icons';
 import {MainLayout} from "../../src/layouts/MainLayouts";
 import {Post} from "../../src/components/Post";
-import styles from './[id].module.scss'
+import {ReactElement} from "react";
 
+const avatar_style = {
+    width: 120, height: 120, borderRadius: 6
+}as const
+
+const button_settings_icon_style = {
+    height: 42, minWidth: 45, width: 45, marginRight: 10
+}as const
+
+const button_style = {
+    height: 42
+}as const
 
 const typography_style = {
-    fontWeight: 'bold',
-    color: '#35AB66',
-    marginRight: '15px'
+    fontWeight: 'bold', color: '#35AB66'
 }as const
 
-const button_margin ={
-    marginRight:'10px'
+const typography_font_weight = {
+    fontWeight: 'bold'
 }as const
 
+const paper_style = {
+    width: 300
+}as const
 
 
 export default function Profile():ReactElement {
     return (
         <MainLayout contentFullWidth hideComments>
-            <Paper className={styles.paper} elevation={0}>
-                <div className={styles.paper_wrapper}>
+            <Paper className="pl-20 pr-20 pt-20 mb-30" elevation={0}>
+                <div className="d-flex justify-between">
                     <div>
                         <Avatar
-                            className={styles.paper_wrapper__img}
+                            style={avatar_style}
                             src="https://leonardo.osnova.io/5ffeac9a-a0e5-5be6-98af-659bfaabd2a6/-/scale_crop/108x108/-/format/webp/"
                         />
-                        <Typography className={styles.paper_wrapper__typography}variant="h4">
+                        <Typography style={typography_font_weight} className="mt-10" variant="h4">
                             Amon Bower
                         </Typography>
                     </div>
                     <div>
                         <Link href="/profile/settings">
                             <Button
-                                className={styles.paper_wrapper__button}
-                                style={button_margin}
+                                style={button_settings_icon_style}
                                 variant="contained">
                                 <SettingsIcon/>
                             </Button>
                         </Link>
-                        <Button  variant="contained" color="primary">
-                            <MessageIcon className={styles.paper_wrapper__button_icon}/>
+                        <Button style={button_style} variant="contained" color="primary">
+                            <MessageIcon className="mr-10"/>
                             Написать
                         </Button>
                     </div>
                 </div>
-                <Box display={'flex'} marginBottom={'10px'} marginTop={'10px'} >
-                    <Typography style={typography_style}>
+                <div className="d-flex mb-10 mt-10">
+                    <Typography style={typography_style} className="mr-15">
                         +208
                     </Typography>
                     <Typography>2 подписчика</Typography>
-                </Box>
+                </div>
                 <Typography>На проекте с 15 сен 2016</Typography>
 
-                <Tabs className={styles.tabs} value={0} indicatorColor="primary" textColor="primary">
+                <Tabs className="mt-20" value={0} indicatorColor="primary" textColor="primary">
                     <Tab label="Статьи"/>
                     <Tab label="Комментарии"/>
                     <Tab label="Закладки"/>
                 </Tabs>
             </Paper>
-            <div className={styles.followers}>
-                <div className={styles.followers_post}>
+            <div className="d-flex align-start">
+                <div className="mr-20 flex">
                     <Post/>
                 </div>
-                <Paper className={styles.followers_paper} elevation={0}>
+                <Paper style={paper_style} className="p-20 mb-20" elevation={0}>
                     <b>Подписчики</b>
-                    <div className={styles.followers_paper_wrapper}>
+                    <div className="d-flex mt-15">
                         <Avatar
-                            className={styles.followers_paper_wrapper__img}
+                            className="mr-10"
                             src="https://leonardo.osnova.io/2d20257c-fec5-4b3e-7f60-055c86f24a4d/-/scale_crop/108x108/-/format/webp/"
                         />
                         <Avatar
-                            className={styles.followers_paper_wrapper__img}
+                            className="mr-10"
                             src="https://leonardo.osnova.io/2d20257c-fec5-4b3e-7f60-055c86f24a4d/-/scale_crop/108x108/-/format/webp/"
                         />
                     </div>
