@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo, ReactElement} from 'react';
 import ArrowRightIcon from '@material-ui/icons/NavigateNextOutlined';
 import styles from './SideComments.module.scss';
 
@@ -42,22 +42,27 @@ interface CommentItemProps {
   };
 }
 
-const CommentItem: React.FC<CommentItemProps> = ({ user, text, post }) => {
+
+
+
+
+const CommentItem = memo (function CommentItem(props:CommentItemProps):ReactElement{
+  const {user,text,post} = props
   return (
     <div className={styles.commentItem}>
       <div className={styles.userInfo}>
-        <img src="https://leonardo.osnova.io/598fc957-a3f6-598c-b6f9-a033c3941d12/-/scale_crop/64x64/-/format/webp/" />
-        <a href="#">
+        <img src="https://avatarko.ru/img/kartinka/1/avatarko_anonim.jpg" />
+        <a href="src/components/SideComments/index#">
           <b>{user.fullname}</b>
         </a>
       </div>
       <p className={styles.text}>{text}</p>
-      <a href="#">
+      <a href="src/components/SideComments/index#">
         <span className={styles.postTitle}>{post.title}</span>
       </a>
     </div>
   );
-};
+});
 
 export const SideComments = () => {
   return (
