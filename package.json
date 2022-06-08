@@ -8,15 +8,40 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "prettier": {
+    "printWidth": 120,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "bracketSpacing": true
+  },
   "dependencies": {
+    "@editorjs/editorjs": "^2.24.3",
+    "@hookform/resolvers": "^2.9.0",
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/icons": "^4.11.3",
+    "@material-ui/lab": "^4.0.0-alpha.61",
+    "@reduxjs/toolkit": "^1.8.2",
+    "axios": "^0.27.2",
+    "clsx": "^1.1.1",
+    "macro-css": "^1.0.5",
     "next": "12.1.6",
-    "react": "18.1.0",
-    "react-dom": "18.1.0"
+    "next-redux-wrapper": "^7.0.5",
+    "nookies": "^2.5.2",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
+    "react-hook-form": "^7.31.3",
+    "react-redux": "^8.0.2",
+    "redux": "^4.2.0",
+    "sass": "^1.52.2",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/node": "17.0.41",
-    "@types/react": "18.0.12",
-    "@types/react-dom": "18.0.5",
+    "@types/react": "17.0.0",
+    "@types/react-dom": "^17.0.0",
     "eslint": "8.17.0",
     "eslint-config-next": "12.1.6",
     "typescript": "4.7.3"
