@@ -1,8 +1,6 @@
 import React, {memo, ReactElement} from 'react';
 import ArrowRightIcon from '@material-ui/icons/NavigateNextOutlined';
 import styles from './SideComments.module.scss';
-import Image from "next/image";
-import homer from "../../../public/multfilm_gomer (1).png";
 
 const items = [
   {
@@ -46,12 +44,14 @@ interface CommentItemProps {
 
 
 
+
+
 const CommentItem = memo (function CommentItem(props:CommentItemProps):ReactElement{
   const {user,text,post} = props
   return (
     <div className={styles.commentItem}>
       <div className={styles.userInfo}>
-        <Image src={homer} width={'40px'} height={'40px'}/>
+        <img src="https://avatarko.ru/img/kartinka/1/avatarko_anonim.jpg" />
         <a href="src/components/SideComments/index#">
           <b>{user.fullname}</b>
         </a>
