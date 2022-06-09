@@ -12,7 +12,6 @@ export const theme = createTheme({
             main: '#4683d9',
         },
     },
-
     overrides: {
         MuiPaper: {
             rounded: {

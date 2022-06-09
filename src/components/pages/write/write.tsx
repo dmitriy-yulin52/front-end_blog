@@ -1,8 +1,8 @@
 import * as React from 'react'
 import {ReactElement} from "react";
 import {Box, Button} from "@material-ui/core";
-import {WriteForm} from "../WriteForm/WriteForm";
-import {MainLayout} from "../../layouts/MainLayouts";
+import {WriteForm} from "../../WriteForm/WriteForm";
+import {MainLayout} from "../../../layouts/MainLayouts";
 
 
 const style = {
