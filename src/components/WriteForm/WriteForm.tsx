@@ -17,11 +17,11 @@ export const WriteForm = memo(function WriteForm(props: WriteFormProps): ReactEl
 
     const {value, placeholder} = props
     return (
-        <Box flexGrow={1}>
+        <>
             <Input maxRows={21} multiline className={styles.input} value={value} placeholder={placeholder} fullWidth/>
             <Box fontSize={'18px'}>
                 <Editor/>
             </Box>
-        </Box>
+        </>
     )
 })

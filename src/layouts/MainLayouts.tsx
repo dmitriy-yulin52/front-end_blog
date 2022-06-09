@@ -11,15 +11,16 @@ interface MainLayoutProps {
     hideLeftMenu?: boolean;
     contentFullWidth?: boolean;
     style?: string;
+    styleReactNode?:any
     children: ReactNode
 }
 
 
 export const MainLayout = (props: MainLayoutProps): ReactElement => {
-    const {hideComments, contentFullWidth, style, children, hideLeftMenu} = props
+    const {hideComments, contentFullWidth, style, children, hideLeftMenu,styleReactNode} = props
 
     return (
-        <div className={clsx(styles.wrapper, style)}>
+        <div className={clsx(styles.wrapper, style)} style={styleReactNode}>
             {!hideLeftMenu && <div >
                 <LeftMenu/>
             </div>}
