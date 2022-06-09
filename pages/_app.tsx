@@ -6,7 +6,6 @@ import Head from "next/head";
 import {Header} from "../src/components/Header";
 import ClientOnly from "../src/ClientOnlyProps";
 
-
 function MyApp({Component, pageProps}) {
     return (
         <>

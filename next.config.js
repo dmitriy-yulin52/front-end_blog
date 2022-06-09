@@ -6,6 +6,7 @@ module.exports = {
     styledComponents: true,
   },
   images: {
-    domains: ['leonardo.osnova.io'],
-  }
+    loader: 'akamai',
+    path: '',
+  },
 }

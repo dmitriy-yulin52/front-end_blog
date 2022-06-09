@@ -12,9 +12,14 @@ const user = {
   text: 'Десять лучших авторов и комментаторов, а также администраторы первых десяти сообществ изрейтинга по итогам месяца бесплатно получают Plus-аккаунт на месяц.'
 }
 
+const style = {
+  marginBottom:'50px'
+}as const
+
+
 export default function Home():ReactElement {
   return (
-    <MainLayout className="mb-50" contentFullWidth>
+    <MainLayout styleReactNode={style} contentFullWidth>
       <FullPost />
       <Paper elevation={0} className="mt-40 p-30">
         <Typography variant="h6" className="mb-20">

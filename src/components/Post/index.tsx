@@ -3,6 +3,7 @@ import {Paper, Typography} from '@material-ui/core';
 import Image from 'next/image';
 import styles from './Post.module.scss';
 import Link from "next/link";
+import homer from "../../../public/multfilm_gomer (1).png";
 
 
 const root_styles = {
@@ -26,7 +27,7 @@ export const Post = ():ReactElement => {
                 апокалиптические сюжеты с котом в главной роли.
             </Typography>
             <Image
-                src="https://leonardo.osnova.io/a21ca5a9-d95b-560d-9a6f-9fa87eff7fcd/-/preview/600/-/format/webp/"
+                src={homer}
                 height={500}
                 width={600}
             />
