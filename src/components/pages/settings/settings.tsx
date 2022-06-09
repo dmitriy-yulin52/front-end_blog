@@ -3,7 +3,7 @@ import {ReactElement, useCallback, useMemo, useState} from "react";
 import {Button, Divider, IconButton, InputAdornment, Paper, TextField, Typography} from "@material-ui/core";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
-import {MainLayout} from "../../layouts/MainLayouts";
+import {MainLayout} from "../../../layouts/MainLayouts";
 
 type InputsPropsTextFieldType = {
     endAdornment:JSX.Element

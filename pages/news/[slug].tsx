@@ -1,40 +1,49 @@
-import { Divider, Paper, Tab, Tabs, Typography } from '@material-ui/core';
 import React, {ReactElement} from 'react';
-import {MainLayout} from "../../src/layouts/MainLayouts";
+import {PostComments} from "../../src/components/pages/post/post-comments";
 import {FullPost} from "../../src/components/FullPost";
-import {Comment} from "../../src/components/Comment";
-
-
-const user = {
-  user:{
-    fullname:'dmitriy'
-  },
-  text: 'Десять лучших авторов и комментаторов, а также администраторы первых десяти сообществ изрейтинга по итогам месяца бесплатно получают Plus-аккаунт на месяц.'
-}
+import {MainLayout} from "../../src/layouts/MainLayouts";
 
 const style = {
-  marginBottom:'50px'
-}as const
+    marginBottom: '50px'
+} as const
 
 
-export default function Home():ReactElement {
-  return (
-    <MainLayout styleReactNode={style} contentFullWidth>
-      <FullPost />
-      <Paper elevation={0} className="mt-40 p-30">
-        <Typography variant="h6" className="mb-20">
-          42 комментария
-        </Typography>
-        <Tabs className="mt-20" value={0} indicatorColor="primary" textColor="primary">
-          <Tab label="Популярные" />
-          <Tab label="По порядку" />
-        </Tabs>
-        <Divider />
-        <div className="mb-20" />
-        <Comment user={user.user} text={user.text}/>
-        <Comment user={user.user} text={user.text}/>
-        <Comment user={user.user} text={user.text}/>
-      </Paper>
-    </MainLayout>
-  );
+const comments = [
+    {
+        id:1212,
+        createdAt:'5 часов назад',
+        user: {
+            fullname: 'Вася Пупкин',
+            avatarUrl: 'https://avatarko.ru/img/kartinka/1/avatarko_anonim.jpg'
+        },
+        text: 'Теперь, каждое рабочее утро, после кровати, я перекладываюсь туда спать ещё на часок. Ну и…',
+    },
+    {
+        id:212344,
+        createdAt:'5 часов назад',
+        user: {
+            fullname: 'Вася Пупкин',
+            avatarUrl: 'https://avatarko.ru/img/kartinka/1/avatarko_anonim.jpg'
+        },
+        text: 'Теперь, каждое рабочее утро, после кровати, я перекладываюсь туда спать ещё на часок. Ну и…',
+    },
+    {
+        id:367777,
+        createdAt:'5 часов назад',
+        user: {
+            fullname: 'Вася Пупкин',
+            avatarUrl: 'https://avatarko.ru/img/kartinka/1/avatarko_anonim.jpg'
+        },
+        text: 'Теперь, каждое рабочее утро, после кровати, я перекладываюсь туда спать ещё на часок. Ну и…',
+    },
+];
+
+
+export default function Post(): ReactElement {
+    return (
+        <MainLayout styleReactNode={style} contentFullWidth>
+            <FullPost/>
+            <PostComments items={comments}/>
+        </MainLayout>
+    );
 }

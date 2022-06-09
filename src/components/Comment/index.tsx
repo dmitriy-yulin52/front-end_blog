@@ -7,12 +7,14 @@ import styles from './Comment.module.scss';
 interface CommentPostProps {
     user: {
         fullname: string;
+        avatarUrl: string
     };
     text: string;
+    createdAt: string
 }
 
 export const Comment = memo(function Comment(props: CommentPostProps):ReactElement {
-    const {user, text} = props
+    const {user, text,createdAt} = props
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -28,15 +30,14 @@ export const Comment = memo(function Comment(props: CommentPostProps):ReactEleme
         <div className={styles.comment}>
             <div className={styles.userInfo}>
                 <img
-                    src="https://avatarko.ru/img/kartinka/1/avatarko_anonim.jpg"
+                    src={user.avatarUrl}
                     alt="Avatar"
                 />
-                <b>Master Oogway</b>
-                <span>5 часов</span>
+                <b>{user.fullname}</b>
+                <span>{createdAt}</span>
             </div>
             <Typography className={styles.text}>
-                Суперджет это ад адский, два раза летала и оба раза прощалась с жизнью. Трясёт хуже, чем в
-                копейке по разьебанной дороге
+                {text}
             </Typography>
             <span className={styles.replyBtn}>Ответить</span>
             <IconButton onClick={handleClick}>

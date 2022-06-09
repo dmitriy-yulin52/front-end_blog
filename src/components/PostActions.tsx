@@ -1,45 +1,38 @@
-import React, { CSSProperties } from 'react';
-import { IconButton } from '@material-ui/core';
+import React, {CSSProperties} from 'react';
+import {Box, IconButton} from '@material-ui/core';
 import {
-  ModeCommentOutlined as CommentsIcon,
-  RepeatOutlined as RepostIcon,
-  BookmarkBorderOutlined as FavoriteIcon,
-  ShareOutlined as ShareIcon,
+    ModeCommentOutlined as CommentsIcon,
+    RepeatOutlined as RepostIcon,
+    BookmarkBorderOutlined as FavoriteIcon,
+    ShareOutlined as ShareIcon,
 } from '@material-ui/icons';
 
-const styles: CSSProperties = {
-  display: 'flex',
-  justifyContent: 'space-between',
-  position: 'relative',
-  top: '5',
-  listStyle: 'none',
-  padding: '0',
-  margin: '0',
-}as const ;
 
-export const PostActions= () => {
-  return (
-    <ul style={styles}>
-      <li>
-        <IconButton>
-          <CommentsIcon />
-        </IconButton>
-      </li>
-      <li>
-        <IconButton>
-          <RepostIcon />
-        </IconButton>
-      </li>
-      <li>
-        <IconButton>
-          <FavoriteIcon />
-        </IconButton>
-      </li>
-      <li>
-        <IconButton>
-          <ShareIcon />
-        </IconButton>
-      </li>
-    </ul>
-  );
+export const PostActions = () => {
+    return (
+        <Box flex={'0 1 100%'} flexWrap={'wrap'} >
+            <Box display={'flex'} justifyContent={'space-between'}>
+                <Box>
+                    <IconButton>
+                        <CommentsIcon/>
+                    </IconButton>
+                </Box>
+                <Box>
+                    <IconButton>
+                        <RepostIcon/>
+                    </IconButton>
+                </Box>
+                <Box>
+                    <IconButton>
+                        <FavoriteIcon/>
+                    </IconButton>
+                </Box>
+                <Box>
+                    <IconButton>
+                        <ShareIcon/>
+                    </IconButton>
+                </Box>
+            </Box>
+        </Box>
+    );
 };

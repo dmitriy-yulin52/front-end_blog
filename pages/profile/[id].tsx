@@ -36,7 +36,7 @@ const paper_style = {
 
 export default function Profile(): ReactElement {
     return (
-        <MainLayout contentFullWidth hideComments>
+        <MainLayout contentFullWidth>
             <Paper className="pl-20 pr-20 pt-20 mb-30" elevation={0}>
                 <div className="d-flex justify-between">
                     <div>
