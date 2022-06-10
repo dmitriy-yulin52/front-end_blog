@@ -72,7 +72,6 @@ export const SideComments = memo(function SideComments(props:SideCommentsProps):
     const {onClick}=props
 
 
-
     return (
         <>
             {/*{!transition && <Box display={'flex'} justifyContent={'flex-end'}>*/}

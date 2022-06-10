@@ -1,0 +1,13 @@
+.com {
+  display: flex;
+  position: relative;
+  justify-content: flex-end;
+  align-items: flex-start;
+  transition: all 1s;
+  transform: translateX(10px);
+}
+
+.not_com {
+  position: relative;
+  transform: translateX(90px);
+}
