@@ -1,0 +1,30 @@
+.form {
+  padding: 10px;
+  background-color: #f7f7f7;
+  border: 1px solid rgba(0, 0, 0, .03);
+  border-radius: 10px;
+  margin-top: 16px;
+  &:hover {
+    background-color: #fff;
+      box-shadow: 0 0 0 3px rgb(70 131 217 / 12%);
+  }
+
+}
+
+.focus_effect {
+  border: 1px solid #4683d9;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgb(70 131 217 / 12%);
+}
+.blur_effect{
+  background-color: #f7f7f7;
+  border: 1px solid rgba(0, 0, 0, .03);
+}
+
+.input {
+  &:before, &:after {
+    display: none;
+  }
+
+}
+

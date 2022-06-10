@@ -6,7 +6,7 @@ import {MainLayout} from "../../../layouts/MainLayouts";
 
 
 const style = {
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',justifyContent:'center'
 } as const
 
 
@@ -24,8 +24,6 @@ export const WriteComponent = (): ReactElement => {
         </Box>
     </MainLayout>
 }
-
-
 
 
 
