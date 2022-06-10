@@ -1,5 +1,15 @@
-import React from 'react';
-import {Paper, Button, IconButton, Avatar} from '@material-ui/core';
+import React, {useCallback, useState} from 'react';
+import {
+    Paper,
+    Button,
+    IconButton,
+    Avatar,
+    Typography,
+    DialogContent,
+    DialogTitle,
+    Dialog,
+    DialogActions, Box
+} from '@material-ui/core';
 import {
     SearchOutlined as SearchIcon,
     CreateOutlined as PenIcon,
@@ -11,12 +21,26 @@ import {
 import styles from './Header.module.scss';
 import Link from "next/link";
 import Image from "next/image";
+import CloseIcon from '@mui/icons-material/Close';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import GoogleIcon from '@mui/icons-material/Google';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import {AuthDialog} from "../AuthDialog/AuthDialog";
+
 
 const rootStyle = {
     root: styles.root
 } as const
 
-export const Header: React.FC = () => {
+export const Header= () => {
+
+    const [openAuthDialog, setOpenAuthDialog] = useState(false)
+
+
+    const handleClickDialog = useCallback(() => {
+        setOpenAuthDialog(!openAuthDialog)
+    },[setOpenAuthDialog,openAuthDialog])
+
     return (
         <Paper classes={rootStyle} elevation={0}>
             <div className="d-flex align-center">
@@ -44,7 +68,7 @@ export const Header: React.FC = () => {
 
             </div>
             <div className="d-flex align-center">
-                <IconButton>
+                <IconButton onClick={handleClickDialog}>
                     <MessageIcon/>
                 </IconButton>
                 <IconButton>
@@ -62,8 +86,8 @@ export const Header: React.FC = () => {
                         <ArrowBottom/>
                     </a>
                 </Link>
-
             </div>
+           <AuthDialog openDialog={openAuthDialog} closeDialog={handleClickDialog}/>
         </Paper>
     );
 };

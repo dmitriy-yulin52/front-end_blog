@@ -3,7 +3,7 @@ import {theme} from '../src/theme/theme';
 import '../styles/globals.scss';
 import 'macro-css';
 import Head from "next/head";
-import {Header} from "../src/components/Header";
+import {Header} from "../src/components/Header/Header";
 import ClientOnly from "../src/ClientOnlyProps";
 
 function MyApp({Component, pageProps}) {
