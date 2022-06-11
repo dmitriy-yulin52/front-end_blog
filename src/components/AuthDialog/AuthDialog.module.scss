@@ -38,7 +38,7 @@
 .button{
   button{
     height: 50px;
-    width: 100px;
+    width: 90px;
      span{
       span{
         margin: 0;
@@ -51,4 +51,13 @@
 .logo{
   width: 32px;
   height: 42px;
+}
+
+
+
+.button_reg_from{
+  display: flex;
+  align-items: center;
+  margin: 16px 0px 0px 16px;
+  cursor: pointer;
 }

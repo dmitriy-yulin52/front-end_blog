@@ -1,14 +1,18 @@
 import * as React from 'react';
-import {Box} from "@material-ui/core";
+import {Box, Button, Link, Typography} from "@material-ui/core";
 import {UniversalTextField} from "../../utils/MaterialComponent";
 import {ChangeEvent, useCallback, useState} from 'react';
 
-type RegistrationFormProps = {};
+type RegistrationFormProps = {
+    handleVisibleEntryContent:()=>void
+};
 
 
 const MAX_LENGTH = 30
 
 export const RegistrationForm = (props: RegistrationFormProps) => {
+
+    const {handleVisibleEntryContent}=props
 
     const [login, setLogin] = useState('')
     const [email, setEmail] = useState('')
@@ -19,7 +23,7 @@ export const RegistrationForm = (props: RegistrationFormProps) => {
     const limit = login.length >= MAX_LENGTH ? '0' : String(countLimit)
 
     const handlerSetLogin = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-            setLogin(e.currentTarget.value)
+        setLogin(e.currentTarget.value)
     }, [setLogin, login])
     const handlerSetEmail = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setEmail(e.currentTarget.value)
@@ -31,23 +35,35 @@ export const RegistrationForm = (props: RegistrationFormProps) => {
 
     return (
         <Box>
-            <UniversalTextField
-                value={login}
-                onChangeHandler={handlerSetLogin}
-                placeholder={'Имя и фамилия'}
-                endAdornmentElement={limit}
+            <Box>
+                <UniversalTextField
+                    value={login}
+                    onChangeHandler={handlerSetLogin}
+                    placeholder={'Имя и фамилия'}
+                    endAdornmentElement={limit}
 
-            />
-            <UniversalTextField
-                value={email}
-                onChangeHandler={handlerSetEmail}
-                placeholder={'Почта'}
-            />
-            <UniversalTextField
-                value={password}
-                onChangeHandler={handlerSetPassword}
-                placeholder={'Пароль'}
-            />
+                />
+                <UniversalTextField
+                    value={email}
+                    onChangeHandler={handlerSetEmail}
+                    placeholder={'Почта'}
+                />
+                <UniversalTextField
+                    value={password}
+                    onChangeHandler={handlerSetPassword}
+                    placeholder={'Пароль'}
+                />
+            </Box>
+                <Button style={{marginTop:'32px'}} fullWidth variant={'contained'} color={'primary'}>Зарегистрироваться</Button>
+
+            <Box marginTop={'16px'}>
+                <Typography>Есть аккаунт? <Link style={{cursor:'pointer'}} onClick={handleVisibleEntryContent}>Войти</Link></Typography>
+            </Box>
+            <Box marginTop={'8px'}>
+                <Typography>
+                    <Link style={{cursor:'pointer'}}>Условия использования</Link>
+                </Typography>
+            </Box>
         </Box>
     );
 };

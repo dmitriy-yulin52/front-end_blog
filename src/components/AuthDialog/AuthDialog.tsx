@@ -1,12 +1,14 @@
 import * as React from 'react';
-import {Box, Button, Dialog, DialogContent, IconButton, Typography} from "@material-ui/core";
+import {Box, Button, Dialog, DialogContent, IconButton, Link, Typography} from "@material-ui/core";
 import CloseIcon from "@mui/icons-material/Close";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import GoogleIcon from "@mui/icons-material/Google";
-import {memo, ReactElement, useState} from "react";
+import {memo, ReactElement, useCallback, useState} from "react";
 import styles from './AuthDialog.module.scss'
 import {RegistrationForm} from "../RegistrationForm/RegistrationForm";
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import {EntryFormEmail} from "../EntryFormEmail/EntryFormEmail";
 
 type Props = {
     openDialog: boolean
@@ -15,16 +17,40 @@ type Props = {
 
 
 export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
-    const [fromType,setFormType] = useState<'main' | 'email'>('main')
+    const [fromType, setFormType] = useState<'main' | 'email'>('main')
 
 
-    const [openRegForm,setRegForm] = useState(false)
+    const [openRegFormEmail, setRegFormEmail] = useState(false)
+    const [openEntryFormEmail, setEntryFormEmail] = useState(false)
+    const [visibleEntryContent, setVisibleEntryContent] = useState(false)
 
 
-    const handlerSetRegForm = ()=> {
-        setRegForm(!openRegForm)
-    }
+    const handlerSetRegForm = useCallback(() => {
+        setRegFormEmail(!openRegFormEmail)
+    }, [openRegFormEmail, setRegFormEmail])
 
+
+    const handleVisibleEntryContent = useCallback(() => {
+        setVisibleEntryContent(!visibleEntryContent)
+        setRegFormEmail(!openRegFormEmail)
+    }, [visibleEntryContent, setVisibleEntryContent, setRegFormEmail, openRegFormEmail])
+
+
+    const onClickOpenEntryFormEmail = useCallback(() => {
+        setEntryFormEmail(true)
+        setRegFormEmail(false)
+    }, [setEntryFormEmail, openEntryFormEmail, setRegFormEmail, openRegFormEmail])
+
+    const onClickBackEntryFormEmail = useCallback(() => {
+        setEntryFormEmail(false)
+    }, [setVisibleEntryContent, visibleEntryContent])
+
+
+    const onClickBackRegForm = useCallback(() => {
+        setRegFormEmail(false)
+        setEntryFormEmail(false)
+        setVisibleEntryContent(false)
+    }, [setRegFormEmail, openRegFormEmail, setEntryFormEmail, openEntryFormEmail, setVisibleEntryContent, visibleEntryContent])
 
     const {openDialog, closeDialog} = props
 
@@ -47,27 +73,35 @@ export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
                     </Box>
                 </Box>
                 <Box width={'400px'}>
-                    <Box display={'flex'} justifyContent={'flex-end'}>
+                    {(openRegFormEmail || openEntryFormEmail) && <Box display={'flex'} justifyContent={'flex-start'}>
+                        <Box className={styles.button_reg_from}
+                             onClick={openEntryFormEmail ? onClickBackEntryFormEmail : handlerSetRegForm}>
+                            <ChevronLeftIcon/>
+                            <Box fontSize={'16px'} marginLeft={'8px'} color={'grey'}>Назад</Box>
+                        </Box>
+                    </Box>}
+                    {!openRegFormEmail && !openEntryFormEmail && <Box display={'flex'} justifyContent={'flex-end'}>
                         <IconButton
-                            aria-label="close"
                             onClick={closeDialog}
                         >
-                            {openRegForm ? 'Назад' : <CloseIcon/>}
+                            <CloseIcon/>
                         </IconButton>
-                    </Box>
+                    </Box>}
                     <Box className={styles.right_menu__dialogContent}>
                         <Box marginBottom={'16px'}>
                             <Typography variant={'h5'} className={styles.right_menu__dialogContent__title}>
-                               Регистрация
+                                {visibleEntryContent ? 'Вход в аккаунт' : 'Регистрация'}
                             </Typography>
                         </Box>
-                        {openRegForm && <RegistrationForm/>}
-                        {!openRegForm && (<><Box display={'flex'} flexDirection={'column'}
-                             className={styles.right_menu__dialogContent__buttonActions}>
+                        {openRegFormEmail && !openEntryFormEmail &&
+                            <RegistrationForm handleVisibleEntryContent={handleVisibleEntryContent}/>}
+                        {openEntryFormEmail && <EntryFormEmail onClickBackRegForm={onClickBackRegForm}/>}
+                        {!openRegFormEmail && !openEntryFormEmail && (<><Box display={'flex'} flexDirection={'column'}
+                                                                             className={styles.right_menu__dialogContent__buttonActions}>
                             <Button
                                 variant={'contained'}
                                 startIcon={<MailOutlineIcon/>}
-                                onClick={handlerSetRegForm}
+                                onClick={visibleEntryContent ? onClickOpenEntryFormEmail : handlerSetRegForm}
                             >
                                 Почта
                             </Button>
@@ -80,18 +114,29 @@ export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
                             </Button>
                             <Button fullWidth variant={'contained'} startIcon={<GoogleIcon/>}>Google</Button>
                         </Box>
-                        <Box className={styles.button} marginTop={'16px'} display={'flex'} justifyContent={'space-between'}>
-                            <Button variant={'contained'} startIcon={<MailOutlineIcon/>}/>
-                            <Button variant={'contained'} startIcon={<FacebookIcon/>}/>
-                            <Button variant={'contained'} startIcon={<GoogleIcon/>}/>
-                        </Box></>)}
+                            <Box className={styles.button} marginTop={'16px'} display={'flex'}
+                                 justifyContent={'space-between'}>
+                                <Button variant={'contained'} startIcon={<MailOutlineIcon/>}/>
+                                <Button variant={'contained'} startIcon={<FacebookIcon/>}/>
+                                <Button variant={'contained'} startIcon={<GoogleIcon/>}/>
+                            </Box></>)}
+                        <Box style={{cursor: 'pointer', marginTop: '16px'}}>
+                            <Typography>
+                                {!openRegFormEmail && !openEntryFormEmail && !visibleEntryContent && 'Есть аккаунт? '}
+                                <Link
+                                    onClick={!openRegFormEmail && !openEntryFormEmail && visibleEntryContent ? () => setVisibleEntryContent(false) : () => setVisibleEntryContent(true)}>
+                                    {!openRegFormEmail && !openEntryFormEmail && visibleEntryContent && 'Регистрация'}
+                                    {!openRegFormEmail && !openEntryFormEmail && !visibleEntryContent && 'Войти'}
+                                </Link>
+                            </Typography>
+                        </Box>
+                        {!openRegFormEmail && !openEntryFormEmail && !visibleEntryContent && <Box marginTop={'8px'}>
+                            <Typography>
+                                <Link style={{cursor: 'pointer'}}>Условия использования</Link>
+                            </Typography>
+                        </Box>}
                     </Box>
                 </Box>
-                {/*<DialogActions>*/}
-                {/*    <Button autoFocus>*/}
-                {/*        Save changes*/}
-                {/*    </Button>*/}
-                {/*</DialogActions>*/}
             </Box>
         </Dialog>
     );
