@@ -8,7 +8,7 @@ type EntryFormEmailProps = {
 };
 export const EntryFormEmail = memo(function EntryFormEmail(props: EntryFormEmailProps): ReactElement {
 
-    const {onClickBackRegForm,visibleEntryContent}=props
+    const {onClickBackRegForm}=props
 
     const [login, setLogin] = useState('')
     const [password, setPassword] = useState('')
