@@ -1,0 +1,63 @@
+.left_menu{
+  background-image: url("https://leonardo.osnova.io/b6bd61b5-eb5b-34db-8501-2fcc54cd051b/-/format/webp/");
+  background-size: cover;
+  background-position: center;
+}
+
+
+.right_menu__dialogContent{
+  padding: 48px;
+}
+
+.right_menu__dialogContent__title{
+  font-weight: 700;
+}
+
+
+.right_menu__dialogContent__buttonActions{
+  button{
+    margin-bottom: 16px;
+    position: relative;
+    svg{
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+    span{
+      span{
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+  button:last-child{
+    margin-bottom: 0px;
+  }
+}
+
+.button{
+  button{
+    height: 50px;
+    width: 90px;
+     span{
+      span{
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+}
+
+.logo{
+  width: 32px;
+  height: 42px;
+}
+
+
+
+.button_reg_from{
+  display: flex;
+  align-items: center;
+  margin: 16px 0px 0px 16px;
+  cursor: pointer;
+}

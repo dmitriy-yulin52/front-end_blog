@@ -25,10 +25,16 @@
   margin-bottom: 25px;
 }
 
-
 .img{
      width: 24px;
     height: 24px;
     border-radius: 3px;
     margin-right: 8px;
+}
+
+
+.link{
+  &:hover{
+    text-decoration: underline;
+  }
 }

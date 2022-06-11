@@ -1,6 +1,6 @@
 import * as React from 'react';
 import clsx from 'clsx';
-import {LeftMenu} from "../components/LeftMenu";
+import {LeftMenu} from "../components/LeftMenu/LeftMenu";
 import {SideComments} from "../components/SideComments/SideComments";
 import {ReactElement, ReactNode, useCallback, useState} from "react";
 import styles from './MainLayouts.module.scss'

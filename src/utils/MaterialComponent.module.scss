@@ -1,0 +1,23 @@
+.universal_text_field {
+  padding: 10px;
+  background-color: #f7f7f7;
+  border: 1px solid rgba(0, 0, 0, .03);
+  border-radius: 10px;
+  margin-top: 16px;
+  height: 48px;
+  font-size: 16px;
+  width: 100%;
+
+  &:hover {
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgb(70 131 217 / 12%);
+  }
+  &:before, &:after {
+    display: none;
+  }
+}
+.universal_text_field__focus{
+  border: 1px solid #4683d9;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgb(70 131 217 / 12%);
+}
