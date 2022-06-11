@@ -41,7 +41,6 @@ export const RegistrationForm = (props: RegistrationFormProps) => {
                     onChangeHandler={handlerSetLogin}
                     placeholder={'Имя и фамилия'}
                     endAdornmentElement={limit}
-
                 />
                 <UniversalTextField
                     value={email}
