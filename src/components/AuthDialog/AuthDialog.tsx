@@ -6,9 +6,9 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import GoogleIcon from "@mui/icons-material/Google";
 import {memo, ReactElement, useCallback, useState} from "react";
 import styles from './AuthDialog.module.scss'
-import {RegistrationForm} from "../RegistrationForm/RegistrationForm";
+import {RegistrationForm} from "./RegistrationForm/RegistrationForm";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import {EntryFormEmail} from "../EntryFormEmail/EntryFormEmail";
+import {EntryFormEmail} from "./EntryFormEmail/EntryFormEmail";
 
 type Props = {
     openDialog: boolean
@@ -20,41 +20,41 @@ export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
 
     const {openDialog, closeDialog} = props
 
-    const [formType, setFormType] = useState<'main' | 'email' | 'restored_password' | 'entry' | 'entry_email'>('main')
+    const [formType, setFormType] = useState<'main_content' | 'email_form' | 'restored_password_form' | 'entry_content' | 'entry_email_form'>('main_content')
 
-    const is_main_content: boolean = formType == 'main'
-    const is_entry_content: boolean = formType == 'entry'
-    const is_email_content: boolean = formType == 'email'
-    const is_entry_email_content: boolean = formType == 'entry_email'
-    const is_restored_password_content: boolean = formType == 'restored_password'
+    const is_main_content: boolean = formType == 'main_content'
+    const is_entry_content: boolean = formType == 'entry_content'
+    const is_email_content: boolean = formType == 'email_form'
+    const is_entry_email_content: boolean = formType == 'entry_email_form'
+    const is_restored_password_content: boolean = formType == 'restored_password_form'
 
 
     const openEmailForm = useCallback(() => {
-        setFormType('email')
+        setFormType('email_form')
     }, [formType, setFormType])
 
     const handlerEntryFormType = useCallback(
         () => {
-            setFormType('entry')
+            setFormType('entry_content')
         },
         [setFormType, setFormType],
     );
 
     const openMainContent = useCallback(
         () => {
-            setFormType('main')
+            setFormType('main_content')
         },
         [setFormType,setFormType],
     );
 
     const openEntryEmailForm = useCallback(()=> {
-        setFormType('entry_email')
+        setFormType('entry_email_form')
     },[setFormType,formType])
 
 
     const openRestoredPasswordForm = useCallback(
         () => {
-            setFormType('restored_password')
+            setFormType('restored_password_form')
         },
         [setFormType,setFormType],
     );
@@ -66,7 +66,7 @@ export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
             aria-labelledby="customized-dialog-title"
             open={openDialog}
         >
-            <Box display={'flex'} justifyContent={'center'} height={'600px'}>
+            <Box display={'flex'} justifyContent={'center'} height={'600px'} position={'relative'}>
                 <Box
                     width={'200px'}
                     className={styles.left_menu}
@@ -82,7 +82,7 @@ export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
                 <Box width={'400px'}>
                     {(is_email_content || is_entry_email_content || is_restored_password_content) && <Box display={'flex'} justifyContent={'flex-start'}>
                         <Box className={styles.button_reg_from}
-                             onClick={is_email_content ? openMainContent : is_entry_email_content ? handlerEntryFormType: is_restored_password_content ? ()=> openEntryEmailForm: null}>
+                             onClick={is_email_content ? openMainContent : is_entry_email_content ? handlerEntryFormType: is_restored_password_content ? openEntryEmailForm: null}>
                             <ChevronLeftIcon/>
                             <Box fontSize={'16px'} marginLeft={'8px'} color={'grey'}>Назад</Box>
                         </Box>
@@ -147,7 +147,7 @@ export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
                                 </Link>
                             </Typography>
                         </Box>
-                        {is_main_content && <Box marginTop={'8px'}>
+                        {is_main_content && <Box marginTop={'8px'} position={'absolute'} bottom={20}>
                             <Typography>
                                 <Link>Условия использования</Link>
                             </Typography>
