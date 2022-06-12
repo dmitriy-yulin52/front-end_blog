@@ -26,7 +26,7 @@ export const RestoredPassword = (props: RestoredPasswordProps): ReactElement => 
         <Box>
             <UniversalTextField value={email} onChangeHandler={onChangeEmailHandler} placeholder={'Почта'}/>
             <Button fullWidth variant={'contained'}
-                    color={'primary'}>Войти</Button>
+                    color={'primary'}>Отправить</Button>
              <Box marginTop={'8px'}>
                 <Typography>
                     <Link onClick={handlerCloseRestoredForm}>Регистрация</Link>

@@ -6,17 +6,18 @@ import styles from './EntryFormEmail.module.scss'
 import {RestoredPassword} from "../RestoredPassword/RestoredPassword";
 
 type EntryFormEmailProps = {
-    onClickBackRegForm: () => void
-    openRestoredFormPassword:boolean
-    onClickOpenRestoredFrom:()=>void
-    handlerCloseRestoredForm:()=>void
+    openMainContent: () => void
+    openRestoredPasswordForm: () => void
+    is_restored_password_content:boolean
+    is_entry_email_content:boolean
 };
 
 
 export const EntryFormEmail = memo(function EntryFormEmail(props: EntryFormEmailProps): ReactElement {
 
-    const {onClickBackRegForm,openRestoredFormPassword,onClickOpenRestoredFrom,handlerCloseRestoredForm} = props
+    const {openMainContent,is_restored_password_content,is_entry_email_content,openRestoredPasswordForm} = props
 
+    const [visibleRestoredPassword,setVisibleRestoredPassword ] = useState(false)
 
     const [login, setLogin] = useState('')
     const [password, setPassword] = useState('')
@@ -32,11 +33,9 @@ export const EntryFormEmail = memo(function EntryFormEmail(props: EntryFormEmail
 
 
 
-
     return (
         <Box className={styles.wrapper}>
-            {!openRestoredFormPassword && (
-                <>
+            {is_entry_email_content && <>
                     <Box>
                         <UniversalTextField value={login} onChangeHandler={onChangeLoginHandler} placeholder={'Почта'}/>
                         <UniversalTextField value={password} onChangeHandler={onChangePasswordHandler}
@@ -45,16 +44,15 @@ export const EntryFormEmail = memo(function EntryFormEmail(props: EntryFormEmail
                     <Button fullWidth variant={'contained'}
                             color={'primary'}>Войти</Button>
                     <Box marginTop={'16px'}>
-                        <Typography><Link onClick={onClickOpenRestoredFrom}>Забыли пароль?</Link></Typography>
+                        <Typography><Link onClick={openRestoredPasswordForm}>Забыли пароль?</Link></Typography>
                     </Box>
                     <Box marginTop={'8px'}>
                         <Typography>
-                            <Link onClick={onClickBackRegForm}>Регистрация</Link>
+                            <Link onClick={openMainContent}>Регистрация</Link>
                         </Typography>
                     </Box>
-                </>
-            )}
-            {openRestoredFormPassword && <RestoredPassword handlerCloseRestoredForm={handlerCloseRestoredForm}/>}
+                </>}
+            {is_restored_password_content && <RestoredPassword handlerCloseRestoredForm={()=>{}}/>}
         </Box>
     );
 })

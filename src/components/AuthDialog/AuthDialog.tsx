@@ -20,61 +20,45 @@ export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
 
     const {openDialog, closeDialog} = props
 
+    const [formType, setFormType] = useState<'main' | 'email' | 'restored_password' | 'entry' | 'entry_email'>('main')
 
-    const [fromType, setFormType] = useState<'main' | 'email'>('main')
-
-
-    const [openRegFormEmail, setRegFormEmail] = useState(false)
-    const [openEntryFormEmail, setEntryFormEmail] = useState(false)
-    const [visibleEntryContent, setVisibleEntryContent] = useState(false)
-    const [openRestoredFormPassword, setRestoredFormPassword] = useState(false)
-
-    const start_content: boolean = !openRegFormEmail && !openEntryFormEmail
+    const is_main_content: boolean = formType == 'main'
+    const is_entry_content: boolean = formType == 'entry'
+    const is_email_content: boolean = formType == 'email'
+    const is_entry_email_content: boolean = formType == 'entry_email'
+    const is_restored_password_content: boolean = formType == 'restored_password'
 
 
-    const handlerSetRegForm = useCallback(() => {
-        setRegFormEmail(!openRegFormEmail)
-    }, [openRegFormEmail, setRegFormEmail])
+    const openEmailForm = useCallback(() => {
+        setFormType('email')
+    }, [formType, setFormType])
+
+    const handlerEntryFormType = useCallback(
+        () => {
+            setFormType('entry')
+        },
+        [setFormType, setFormType],
+    );
+
+    const openMainContent = useCallback(
+        () => {
+            setFormType('main')
+        },
+        [setFormType,setFormType],
+    );
+
+    const openEntryEmailForm = useCallback(()=> {
+        setFormType('entry_email')
+    },[setFormType,formType])
 
 
-    const handleVisibleEntryContent = useCallback(() => {
-        setVisibleEntryContent(!visibleEntryContent)
-        setRegFormEmail(!openRegFormEmail)
-    }, [visibleEntryContent, setVisibleEntryContent, setRegFormEmail, openRegFormEmail])
+    const openRestoredPasswordForm = useCallback(
+        () => {
+            setFormType('restored_password')
+        },
+        [setFormType,setFormType],
+    );
 
-
-    const onClickOpenEntryFormEmail = useCallback(() => {
-        setEntryFormEmail(true)
-        setRegFormEmail(false)
-    }, [setEntryFormEmail, openEntryFormEmail, setRegFormEmail, openRegFormEmail])
-
-    const onClickBackEntryFormEmail = useCallback(() => {
-        setEntryFormEmail(false)
-    }, [setVisibleEntryContent, visibleEntryContent])
-
-
-    const onClickBackRegForm = useCallback(() => {
-        setRegFormEmail(false)
-        setEntryFormEmail(false)
-        setVisibleEntryContent(false)
-    }, [setRegFormEmail, openRegFormEmail, setEntryFormEmail, openEntryFormEmail, setVisibleEntryContent, visibleEntryContent])
-
-    const onClickOpenRestoredFormPassword = useCallback(() => {
-        setRestoredFormPassword(true)
-    }, [setRestoredFormPassword, openRestoredFormPassword])
-
-    const onClickCloseOpenRestoredFormPassword = useCallback(() => {
-        setRestoredFormPassword(false)
-        setEntryFormEmail(true)
-    }, [setRestoredFormPassword, openRestoredFormPassword, setEntryFormEmail, openEntryFormEmail])
-
-
-    const handlerCloseRestoredForm = useCallback(() => {
-        setRestoredFormPassword(false)
-        setRegFormEmail(false)
-        setEntryFormEmail(false)
-        setVisibleEntryContent(false)
-    }, [setRestoredFormPassword, setRegFormEmail, openRegFormEmail, openEntryFormEmail, setEntryFormEmail, openEntryFormEmail, setVisibleEntryContent, visibleEntryContent])
 
 
     return (
@@ -96,14 +80,14 @@ export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
                     </Box>
                 </Box>
                 <Box width={'400px'}>
-                    {(openRegFormEmail || openEntryFormEmail) && <Box display={'flex'} justifyContent={'flex-start'}>
+                    {(is_email_content || is_entry_email_content || is_restored_password_content) && <Box display={'flex'} justifyContent={'flex-start'}>
                         <Box className={styles.button_reg_from}
-                             onClick={openRestoredFormPassword ? onClickCloseOpenRestoredFormPassword : openEntryFormEmail ? onClickBackEntryFormEmail : handlerSetRegForm}>
+                             onClick={is_email_content ? openMainContent : is_entry_email_content ? handlerEntryFormType: is_restored_password_content ? ()=> openEntryEmailForm: null}>
                             <ChevronLeftIcon/>
                             <Box fontSize={'16px'} marginLeft={'8px'} color={'grey'}>Назад</Box>
                         </Box>
                     </Box>}
-                    {start_content && <Box display={'flex'} justifyContent={'flex-end'}>
+                    {(is_main_content  || is_entry_content) && <Box display={'flex'} justifyContent={'flex-end'}>
                         <IconButton
                             onClick={closeDialog}
                         >
@@ -113,55 +97,57 @@ export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
                     <Box className={styles.right_menu__dialogContent}>
                         <Box marginBottom={'16px'}>
                             <Typography variant={'h5'} className={styles.right_menu__dialogContent__title}>
-                                {openRestoredFormPassword ? 'Восстановить пароль' : visibleEntryContent ? 'Вход в аккаунт' : 'Регистрация'}
+                                {(is_main_content || is_email_content) && 'Регистрация'}
+                                {(is_entry_content || is_entry_email_content) && 'Вход в аккаунт'}
+                                {is_restored_password_content && 'Восстановить пароль'}
                             </Typography>
                         </Box>
-                        {openRegFormEmail && !openEntryFormEmail &&
-                            <RegistrationForm handleVisibleEntryContent={handleVisibleEntryContent}/>}
-                        {openEntryFormEmail &&
+                        {is_email_content &&
+                            <RegistrationForm openEntryContent={handlerEntryFormType} />}
                             <EntryFormEmail
-                                onClickOpenRestoredFrom={onClickOpenRestoredFormPassword}
-                                openRestoredFormPassword={openRestoredFormPassword}
-                                onClickBackRegForm={onClickBackRegForm}
-                                handlerCloseRestoredForm={handlerCloseRestoredForm}
-                            />}
-                        {start_content && (<><Box
-                            display={'flex'}
-                            flexDirection={'column'}
-                            className={styles.right_menu__dialogContent__buttonActions}>
-                            <Button
-                                variant={'contained'}
-                                startIcon={<MailOutlineIcon/>}
-                                onClick={visibleEntryContent ? onClickOpenEntryFormEmail : handlerSetRegForm}
-                            >
-                                Почта
-                            </Button>
-                            <Button
-                                fullWidth
-                                variant={'contained'}
-                                startIcon={<FacebookIcon/>}
-                            >
-                                ВКонтакте
-                            </Button>
-                            <Button fullWidth variant={'contained'} startIcon={<GoogleIcon/>}>Google</Button>
-                        </Box>
-                            <Box className={styles.button} marginTop={'16px'} display={'flex'}
-                                 justifyContent={'space-between'}>
-                                <Button variant={'contained'} startIcon={<MailOutlineIcon/>}/>
-                                <Button variant={'contained'} startIcon={<FacebookIcon/>}/>
-                                <Button variant={'contained'} startIcon={<GoogleIcon/>}/>
-                            </Box></>)}
+                                openMainContent={openMainContent}
+                                is_restored_password_content={is_restored_password_content}
+                                is_entry_email_content={is_entry_email_content}
+                                openRestoredPasswordForm={openRestoredPasswordForm}
+                            />
+                        {(is_entry_content || is_main_content) && (<><Box
+                                display={'flex'}
+                                flexDirection={'column'}
+                                className={styles.right_menu__dialogContent__buttonActions}>
+                                <Button
+                                    variant={'contained'}
+                                    startIcon={<MailOutlineIcon/>}
+                                    onClick={is_main_content ? openEmailForm : openEntryEmailForm}
+                                >
+                                    Почта
+                                </Button>
+                                <Button
+                                    fullWidth
+                                    variant={'contained'}
+                                    startIcon={<FacebookIcon/>}
+                                >
+                                    ВКонтакте
+                                </Button>
+                                <Button fullWidth variant={'contained'} startIcon={<GoogleIcon/>}>Google</Button>
+                            </Box>
+                                <Box className={styles.button} marginTop={'16px'} display={'flex'}
+                                     justifyContent={'space-between'}>
+                                    <Button variant={'contained'} startIcon={<MailOutlineIcon/>}/>
+                                    <Button variant={'contained'} startIcon={<FacebookIcon/>}/>
+                                    <Button variant={'contained'} startIcon={<GoogleIcon/>}/>
+                                </Box></>
+                        )}
                         <Box marginTop={'16px'}>
                             <Typography>
-                                {start_content && !visibleEntryContent && 'Есть аккаунт? '}
+                                {is_main_content && 'Есть аккаунт? '}
                                 <Link
-                                    onClick={start_content && visibleEntryContent ? () => setVisibleEntryContent(false) : () => setVisibleEntryContent(true)}>
-                                    {start_content && visibleEntryContent && 'Регистрация'}
-                                    {start_content && !visibleEntryContent && 'Войти'}
+                                    onClick={is_main_content ? handlerEntryFormType : openMainContent}>
+                                    {is_main_content && 'Войти'}
+                                    {is_entry_content && 'Регистрация'}
                                 </Link>
                             </Typography>
                         </Box>
-                        {start_content && !visibleEntryContent && <Box marginTop={'8px'}>
+                        {is_main_content && <Box marginTop={'8px'}>
                             <Typography>
                                 <Link>Условия использования</Link>
                             </Typography>

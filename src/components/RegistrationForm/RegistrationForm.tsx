@@ -4,7 +4,7 @@ import {UniversalTextField} from "../../utils/MaterialComponent";
 import {ChangeEvent, useCallback, useState} from 'react';
 
 type RegistrationFormProps = {
-    handleVisibleEntryContent:()=>void
+    openEntryContent:()=>void
 };
 
 
@@ -12,7 +12,7 @@ const MAX_LENGTH = 30
 
 export const RegistrationForm = (props: RegistrationFormProps) => {
 
-    const {handleVisibleEntryContent}=props
+    const {openEntryContent}=props
 
     const [login, setLogin] = useState('')
     const [email, setEmail] = useState('')
@@ -56,7 +56,7 @@ export const RegistrationForm = (props: RegistrationFormProps) => {
                 <Button style={{marginTop:'32px'}} fullWidth variant={'contained'} color={'primary'}>Зарегистрироваться</Button>
 
             <Box marginTop={'16px'}>
-                <Typography>Есть аккаунт? <Link style={{cursor:'pointer'}} onClick={handleVisibleEntryContent}>Войти</Link></Typography>
+                <Typography>Есть аккаунт? <Link style={{cursor:'pointer'}} onClick={openEntryContent}>Войти</Link></Typography>
             </Box>
             <Box marginTop={'8px'}>
                 <Typography>
