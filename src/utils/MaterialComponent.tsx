@@ -10,7 +10,7 @@ type UniversalTextFieldProps = {
     placeholder: string
     value: string
     onChangeHandler: (e: ChangeEvent<HTMLInputElement>) => void
-    endAdornmentElement?: string | number | ReactNode
+    endAdornmentElement?: string | ReactElement
     input_type?: string
     register?: any
     name?: string

@@ -1,12 +1,14 @@
-import {Box, Button, IconButton, InputAdornment, Link, Typography} from '@material-ui/core';
+import {Box, Button, IconButton, Link, Typography} from '@material-ui/core';
 import * as React from 'react';
-import {ChangeEvent, memo, ReactElement, useCallback, useMemo, useState} from "react";
-import {UniversalTextField} from "../../../utils/MaterialComponent";
+import {ChangeEvent, memo, ReactElement, useCallback, useState} from 'react';
 import styles from './EntryFormEmail.module.scss'
 import {RestoredPassword} from "../RestoredPassword/RestoredPassword";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
-import {JSXElement} from "@babel/types";
+import {Controller, useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import {EntryFormSchema} from "../../../utils/Validations/validations";
+import {ControllerInput} from "../RegistrationForm/RegistrationForm";
 
 type EntryFormEmailProps = {
     openMainContent: () => void
@@ -21,17 +23,16 @@ const style_icon_button = {
 } as const
 
 
-export function adornmentElement(inputType:boolean,handlerEditTypeInput:()=>void):ReactElement {
+export function adornmentElement(inputType: boolean, handlerEditTypeInput: () => void): ReactElement {
     return <IconButton style={style_icon_button} onClick={handlerEditTypeInput}>
         {inputType ? <VisibilityIcon/> : <VisibilityOffIcon/>}
     </IconButton>
 }
 
 
-
-const margin_button= {
-    marginTop:'16px'
-}as const
+const margin_button = {
+    marginTop: '16px'
+} as const
 
 export const EntryFormEmail = memo(function EntryFormEmail(props: EntryFormEmailProps): ReactElement {
 
@@ -39,17 +40,11 @@ export const EntryFormEmail = memo(function EntryFormEmail(props: EntryFormEmail
 
     const [editTypeInput, setEditTypeInput] = useState(false)
 
-    const [login, setLogin] = useState('')
-    const [password, setPassword] = useState('')
+    const {handleSubmit, control, formState,reset} = useForm({
+        mode: 'onChange',
+        resolver: yupResolver(EntryFormSchema),
 
-
-    const onChangeLoginHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        setLogin(e.currentTarget.value)
-    }, [login, setLogin])
-    const onChangePasswordHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        setPassword(e.currentTarget.value)
-    }, [password, setPassword])
-
+    })
 
     const handlerEditTypeInput = useCallback(
         () => {
@@ -58,24 +53,44 @@ export const EntryFormEmail = memo(function EntryFormEmail(props: EntryFormEmail
         [setEditTypeInput, editTypeInput],
     );
 
-    const endAdornmentElement = adornmentElement(editTypeInput,handlerEditTypeInput)
+    const endAdornmentElement = adornmentElement(editTypeInput, handlerEditTypeInput)
 
+    const onSubmit = (data: any) =>{
+        console.log(data)
+        reset()
+    };
 
     return (
         <Box className={styles.wrapper}>
             {is_entry_email_content && <>
-                <Box>
-                    <UniversalTextField value={login} onChangeHandler={onChangeLoginHandler} placeholder={'Почта'}/>
-                    <UniversalTextField
-                        value={password}
-                        input_type={editTypeInput ? 'text' : 'password'}
-                        onChangeHandler={onChangePasswordHandler}
-                        placeholder={'Пароль'}
-                        endAdornmentElement={endAdornmentElement}
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <Controller
+                        name={'email'}
+                        control={control}
+                        defaultValue={''}
+                        render={ControllerInput({
+                            placeholder: 'Почта', input_type: true
+                        })}
                     />
-                </Box>
-                <Button style={margin_button} fullWidth variant={'contained'}
-                        color={'primary'}>Войти</Button>
+                    <Controller
+                        name={'password'}
+                        control={control}
+                        defaultValue={''}
+                        render={ControllerInput({
+                            input_type: editTypeInput,
+                            endAdornmentElement: endAdornmentElement,
+                            placeholder: 'Пароль'
+                        })}
+                    />
+                    <Button type={'submit'}
+                            style={margin_button}
+                            fullWidth
+                            variant={'contained'}
+                            color={'primary'}
+                            disabled={!formState.isValid}
+                    >Войти</Button>
+                </form>
+
                 <Box marginTop={'16px'}>
                     <Typography><Link onClick={openRestoredPasswordForm}>Забыли пароль?</Link></Typography>
                 </Box>
@@ -85,8 +100,7 @@ export const EntryFormEmail = memo(function EntryFormEmail(props: EntryFormEmail
                     </Typography>
                 </Box>
             </>}
-            {is_restored_password_content && <RestoredPassword handlerCloseRestoredForm={() => {
-            }}/>}
+            {is_restored_password_content && <RestoredPassword />}
         </Box>
     );
 })

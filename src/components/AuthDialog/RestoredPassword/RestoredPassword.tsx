@@ -4,16 +4,10 @@ import {UniversalTextField} from "../../../utils/MaterialComponent";
 import {Box, Button, Link, Typography} from "@material-ui/core";
 
 type RestoredPasswordProps = {
-    handlerCloseRestoredForm:()=>void
 };
 
 
 export const RestoredPassword = (props: RestoredPasswordProps): ReactElement => {
-
-
-    const {handlerCloseRestoredForm}=props
-
-
 
     const [email, setEmail] = useState('')
 
@@ -29,7 +23,7 @@ export const RestoredPassword = (props: RestoredPasswordProps): ReactElement => 
                     color={'primary'}>Отправить</Button>
              <Box marginTop={'8px'}>
                 <Typography>
-                    <Link onClick={handlerCloseRestoredForm}>Регистрация</Link>
+                    <Link>Регистрация</Link>
                 </Typography>
             </Box>
         </Box>
