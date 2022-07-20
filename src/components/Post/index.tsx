@@ -20,7 +20,13 @@ export const Post = ():ReactElement => {
                     </a>
                 </Link>
 
+
             </Typography>
+            <Link href="/news/slug/id">
+                    <a>
+                       ссылка
+                    </a>
+                </Link>
             <Typography className="mt-10 mb-15">
                 Пока одни не могли соотнести размеры животного и окружения, другие начали создавать
                 апокалиптические сюжеты с котом в главной роли.
