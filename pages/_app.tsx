@@ -6,13 +6,13 @@ import Head from "next/head";
 import {Header} from "../src/components/ui/Header/Header";
 import ClientOnly from "../src/ClientOnlyProps";
 import {Provider} from 'react-redux';
-import { store } from '../src/redux/store';
+import {store, wrapper} from '../src/redux/store';
 
 function MyApp({Component, pageProps}) {
     return (
         <>
             <Head>
-                <title>TJournal</title>
+                <title>Forum</title>
                 <link rel="icon" href="/favicon.ico"/>
                 <link rel="preconnect" href="https://fonts.googleapis.com"/>
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin=""/>
@@ -34,4 +34,4 @@ function MyApp({Component, pageProps}) {
     );
 }
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);

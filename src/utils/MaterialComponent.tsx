@@ -1,9 +1,8 @@
 import * as React from 'react';
-import {Box, Input, InputAdornment, TextField, Typography} from "@material-ui/core";
+import {ChangeEvent, memo, ReactElement, useCallback, useMemo, useState} from 'react';
+import {Input, InputAdornment} from "@material-ui/core";
 import styles from './MaterialComponent.module.scss'
-import {ChangeEvent, memo, ReactElement, ReactNode, useCallback, useEffect, useMemo, useState} from "react";
 import clsx from "clsx";
-import {FieldValues, UseFormRegister, UseFormRegisterReturn} from "react-hook-form";
 import {SpanError} from "./SpanError/SpanError";
 
 type UniversalTextFieldProps = {

@@ -25,18 +25,15 @@ type EntryFormEmailProps = {
 const style_icon_button = {
     padding: '3px', margin: '0px'
 } as const
-
+const margin_button = {
+    marginTop: '16px'
+} as const
 
 export function adornmentElement(inputType: boolean, handlerEditTypeInput: () => void): ReactElement {
     return <IconButton style={style_icon_button} onClick={handlerEditTypeInput}>
         {inputType ? <VisibilityIcon/> : <VisibilityOffIcon/>}
     </IconButton>
 }
-
-
-const margin_button = {
-    marginTop: '16px'
-} as const
 
 export const EntryFormEmail = memo(function EntryFormEmail(props: EntryFormEmailProps): ReactElement {
     const {openMainContent, is_restored_password_content, is_entry_email_content, openRestoredPasswordForm} = props
@@ -66,7 +63,7 @@ export const EntryFormEmail = memo(function EntryFormEmail(props: EntryFormEmail
     return (
         <Box className={styles.wrapper}>
             {is_entry_email_content && <>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <Box component={'form'} onSubmit={handleSubmit(onSubmit)}>
                     <Controller
                         name={'email'}
                         control={control}
@@ -92,8 +89,7 @@ export const EntryFormEmail = memo(function EntryFormEmail(props: EntryFormEmail
                             color={'primary'}
                             disabled={!formState.isValid || formState.isSubmitting}
                     >Войти</Button>
-                </form>
-
+                </Box>
                 <Box marginTop={'16px'}>
                     <Typography><Link onClick={openRestoredPasswordForm}>Забыли пароль?</Link></Typography>
                 </Box>

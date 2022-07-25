@@ -45,7 +45,6 @@ export default function Profile(): ReactElement {
         const date = new Date(user.create)
         const day = date.getUTCDate();
         const year = date.getUTCFullYear();
-
         return {
             day, year
         }

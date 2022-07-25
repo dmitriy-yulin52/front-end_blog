@@ -22,7 +22,6 @@ export type InitialStateType = {
     openAuthDialog:boolean
 }
 
-
 export type SetIsAuthType = {
     type: ActionTypeNames.SET_IS_AUTH,
     payload: boolean

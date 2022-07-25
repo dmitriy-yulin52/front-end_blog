@@ -24,7 +24,6 @@ const rootStyle = {
 export const Header = () => {
 
     const {isAuth, openAuthDialog,user} = useTypedSelector(state => state.auth)
-
     const onOpenAuthDialog = useAction(authActions.setOpenAuthDialog)
     const onLogoutHandler = useAction(authActions.logout)
 
@@ -35,11 +34,6 @@ export const Header = () => {
         onOpenAuthDialog(true)
     }, [onOpenAuthDialog])
 
-    useEffect(() => {
-        if (isAuth) {
-            onOpenAuthDialog(false)
-        }
-    }, [isAuth])
 
 
     return (
@@ -102,7 +96,7 @@ export const Header = () => {
                         </IconButton>
                 }
             </div>
-            <AuthDialog openDialog={openAuthDialog} closeDialog={onCloseAuthDialog}/>
+            <AuthDialog openDialog={openAuthDialog} closeDialog={onCloseAuthDialog} isAuth={isAuth}/>
         </Paper>
     );
 };

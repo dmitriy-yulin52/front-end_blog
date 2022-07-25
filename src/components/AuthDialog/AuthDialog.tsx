@@ -4,7 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import GoogleIcon from "@mui/icons-material/Google";
-import {memo, ReactElement, useCallback, useState} from "react";
+import {memo, ReactElement, useCallback, useEffect, useState} from "react";
 import styles from './AuthDialog.module.scss'
 import {RegistrationForm} from "./RegistrationForm/RegistrationForm";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -13,12 +13,13 @@ import {EntryFormEmail} from "./EntryFormEmail/EntryFormEmail";
 type Props = {
     openDialog: boolean
     closeDialog: () => void
+    isAuth: boolean
 };
 
 
 export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
 
-    const {openDialog, closeDialog} = props
+    const {openDialog, closeDialog, isAuth} = props
 
     const [formType, setFormType] = useState<'main_content' | 'email_form' | 'restored_password_form' | 'entry_content' | 'entry_email_form'>('main_content')
 
@@ -58,6 +59,18 @@ export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
         },
         [setFormType],
     );
+
+
+    const onCloseDialogHandler = useCallback(() => {
+        closeDialog()
+        openMainContent()
+    }, [closeDialog, openMainContent])
+
+    useEffect(() => {
+        if (isAuth) {
+            onCloseDialogHandler()
+        }
+    }, [isAuth])
 
 
     return (
@@ -104,7 +117,8 @@ export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
                             </Typography>
                         </Box>
                         {is_email_content &&
-                            <RegistrationForm openEntryContent={handlerEntryFormType} openMainContent={openMainContent}/>}
+                            <RegistrationForm openEntryContent={handlerEntryFormType}
+                                              />}
                         <EntryFormEmail
                             openMainContent={openMainContent}
                             is_restored_password_content={is_restored_password_content}

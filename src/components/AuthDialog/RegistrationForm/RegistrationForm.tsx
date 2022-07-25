@@ -9,11 +9,9 @@ import {RegistrationFormSchema} from "../../../utils/Validations/validations";
 import {CreateUserDto} from "../../../services/api/types";
 import {useAction} from "../../../utils/hooks/hooks-utils";
 import {authActions} from "../../../redux/reducers/auth/auth-actions";
-import {useTypedSelector} from "../../../utils/hooks/UseTypedSelector";
 
 type RegistrationFormProps = {
     openEntryContent: () => void
-    openMainContent: () => void
 };
 
 
@@ -27,7 +25,7 @@ function loginEndAdornmentElement(value: string): string {
 }
 
 export const RegistrationForm = memo(function RegistrationForm(props: RegistrationFormProps): ReactElement {
-    const {openEntryContent, openMainContent} = props
+    const {openEntryContent} = props
 
     const [editTypeInput, setEditTypeInput] = useState(false)
     const {handleSubmit, control, formState, reset} = useForm({
@@ -47,10 +45,9 @@ export const RegistrationForm = memo(function RegistrationForm(props: Registrati
 
     const onRegisterHandler = useCallback((dto: CreateUserDto) => {
         onRegister(dto)
-        openMainContent()
-    }, [onRegister, openMainContent])
+    }, [onRegister])
 
-    const onSubmit = useCallback( (dto: CreateUserDto) => {
+    const onSubmit = useCallback((dto: CreateUserDto) => {
         onRegisterHandler(dto)
     }, [onRegisterHandler]);
 

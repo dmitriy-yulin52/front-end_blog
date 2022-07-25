@@ -1,9 +1,10 @@
 import {CreateUserDto, LoginDto, ResponseUserType} from "../../../services/api/types";
-import {DispatchType} from "../../store";
 import {UserApi} from "../../../services/api";
 import {setCookie} from "nookies";
 import {ActionTypeNames, SetIsAuthType, SetIsLoading, SetOpenAuthDialog, SetUserType} from "./auth-types";
 import {snackbarActions} from "../snackbar/snackbar-actions";
+import {Dispatch} from "redux";
+import {DispatchType} from "../../store";
 
 
 export const authActions = {
