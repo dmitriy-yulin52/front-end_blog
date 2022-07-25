@@ -11,7 +11,7 @@ interface WriteFormProps {
 }
 
 
-const Editor = dynamic(() => import('../Editor').then((mod) => mod.Editor), {ssr: false})
+const Editor = dynamic(() => import('../../Editor').then((mod) => mod.Editor), {ssr: false})
 
 export const WriteForm = memo(function WriteForm(props: WriteFormProps): ReactElement {
 

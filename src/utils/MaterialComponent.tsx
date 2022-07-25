@@ -35,7 +35,6 @@ export const UniversalTextField = memo(function UniversalTextField(props: Univer
     }, [endAdornmentElement]);
 
 
-
     return (
         <>
             <Input

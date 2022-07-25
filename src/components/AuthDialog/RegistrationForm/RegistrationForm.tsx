@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {setCookie} from 'nookies';
 import {Box, Button, FormGroup, Input, Link, Typography} from "@material-ui/core";
 import {UniversalTextField} from "../../../utils/MaterialComponent";
 import {ChangeEvent, memo, ReactElement, useCallback, useState} from 'react';
@@ -6,6 +7,11 @@ import {adornmentElement} from "../EntryFormEmail/EntryFormEmail";
 import {useForm, Controller} from 'react-hook-form'
 import {yupResolver} from "@hookform/resolvers/yup";
 import {RegistrationFormSchema} from "../../../utils/Validations/validations";
+import {UserApi} from "../../../services/api";
+import {CreateUserDto} from "../../../services/api/types";
+import axios from "axios";
+import {useDispatch} from "react-redux";
+import {snackbarActions} from "../../../redux/reducers/snackbar/snackbar-actions";
 
 type RegistrationFormProps = {
     openEntryContent: () => void
@@ -22,17 +28,15 @@ function loginEndAdornmentElement(value: string): string {
 }
 
 export const RegistrationForm = (props: RegistrationFormProps) => {
-
     const {openEntryContent} = props
+    const dispatch = useDispatch()
 
     const [editTypeInput, setEditTypeInput] = useState(false)
-
-    const {handleSubmit, control,formState} = useForm({
+    const {handleSubmit, control, formState} = useForm({
         mode: 'onChange',
         resolver: yupResolver(RegistrationFormSchema),
 
     })
-
 
     const handlerEditTypeInput = useCallback(
         () => {
@@ -41,18 +45,29 @@ export const RegistrationForm = (props: RegistrationFormProps) => {
         [setEditTypeInput, editTypeInput],
     );
 
+
+    const onSubmit = useCallback(async (dto: CreateUserDto) => {
+        try {
+            const data = await UserApi.register(dto)
+            console.log(data, 'data')
+            setCookie(null, 'authToken', data.access_token, {
+                maxAge: 30 * 24 * 60 * 60,
+                path: '/'
+            })
+        } catch (e) {
+            dispatch(snackbarActions.open())
+            dispatch(snackbarActions.setMessage(e.response.data.message))
+        }
+    }, [UserApi,snackbarActions]);
+
     const endAdornmentElement = adornmentElement(editTypeInput, handlerEditTypeInput)
-
-
-    const onSubmit = (data: any) => console.log(data);
-
 
     return (
         <Box>
             <Box>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Controller
-                        name="login"
+                        name="fullName"
                         control={control}
                         defaultValue={''}
                         render={ControllerInput({
@@ -85,7 +100,7 @@ export const RegistrationForm = (props: RegistrationFormProps) => {
                         fullWidth
                         variant={'contained'}
                         color={'primary'}
-                        disabled={!formState.isValid}
+                        disabled={!formState.isValid || formState.isSubmitting}
                     >Зарегистрироваться</Button>
                 </form>
             </Box>
@@ -133,4 +148,6 @@ export function ControllerInput(props: ControllerInputType) {
         />
     }
 }
+
+
 const UniversalTextFieldImpl = memo(UniversalTextField) as typeof UniversalTextField

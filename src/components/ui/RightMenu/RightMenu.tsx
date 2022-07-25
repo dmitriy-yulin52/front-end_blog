@@ -7,6 +7,9 @@ import clsx from "clsx";
 import styles from './RightMenu.module.scss'
 import {ArrowLeft} from "@material-ui/icons";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import {useTypedSelector} from "../../../utils/hooks/UseTypedSelector";
+import {useDispatch} from "react-redux";
+import {rightMenuActions} from "../../../redux/reducers/rightMenu-reducer/rightMenu-actions";
 
 const style_typography = {
     transform: 'rotate(-90deg)', position: 'absolute', top: '115px', left: '-53px'
@@ -15,27 +18,28 @@ const style_typography = {
 
 export const RightMenu = function RightMenu(): ReactElement {
 
-    const [visible, setVisible] = useState(false)
+    const {isVisible} = useTypedSelector(state => state.rightMenu)
+    const dispatch = useDispatch()
 
 
     const handlerClick = useCallback(() => {
-        setVisible(!visible)
-    }, [setVisible, visible])
+        dispatch(rightMenuActions.setVisible(!isVisible))
+    }, [dispatch, isVisible])
 
     return <>
-        <Slide direction="left" in={!visible} mountOnEnter unmountOnExit>
+        <Slide direction="left" in={!isVisible} mountOnEnter unmountOnExit>
             <Box flex={'0 1 400px'}>
                 <SideComments onClick={handlerClick}/>
             </Box>
         </Slide>
         <Box
-            className={clsx( {
-                [styles.com]: visible,
-                [styles.not_com]: !visible,
+            className={clsx({
+                [styles.com]: isVisible,
+                [styles.not_com]: !isVisible,
             })}
         >
             <IconButton onClick={handlerClick}>
-              <ChevronLeftIcon/>
+                <ChevronLeftIcon/>
             </IconButton>
             <Typography
                 style={style_typography}

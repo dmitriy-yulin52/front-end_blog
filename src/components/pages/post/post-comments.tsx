@@ -1,9 +1,9 @@
 import * as React from 'react'
 import {memo, ReactElement, useCallback, useState} from 'react'
 import {Box, Divider, Paper, Tab, Tabs, Typography} from "@material-ui/core";
-import {Comment} from "../../Comment";
+import {Comment} from "../../ui/Comment";
 import styles from './post-comments.module.scss'
-import {AddCommentForm} from "../../AddCommentForm/AddCommentForm";
+import {AddCommentForm} from "../../ui/AddCommentForm/AddCommentForm";
 import data from '../../../../data'
 
 type UserType = {

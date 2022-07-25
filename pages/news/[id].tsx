@@ -1,6 +1,6 @@
 import React, {ReactElement} from 'react';
 import {PostComments} from "../../src/components/pages/post/post-comments";
-import {FullPost} from "../../src/components/FullPost";
+import {FullPost} from "../../src/components/ui/FullPost";
 import {MainLayout} from "../../src/layouts/MainLayouts";
 import data from '../../data'
 

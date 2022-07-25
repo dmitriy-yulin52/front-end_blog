@@ -5,7 +5,7 @@ import {
     TextsmsOutlined as MessageIcon,
 } from '@material-ui/icons';
 import {MainLayout} from "../../src/layouts/MainLayouts";
-import {Post} from "../../src/components/Post";
+import {Post} from "../../src/components/ui/Post";
 import React, {ReactElement} from "react";
 import Image from "next/image";
 

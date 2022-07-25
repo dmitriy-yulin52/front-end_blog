@@ -1,7 +1,7 @@
-import React, {memo, ReactElement, useCallback, useState} from 'react';
+import React, {memo, ReactElement} from 'react';
 import ArrowRightIcon from '@material-ui/icons/NavigateNextOutlined';
 import styles from './SideComments.module.scss';
-import {Box, IconButton, Slide, Typography} from "@material-ui/core";
+import {Box, IconButton, Typography} from "@material-ui/core";
 import Link from "next/link";
 
 const items = [
@@ -84,7 +84,6 @@ interface SideCommentsProps {
 export const SideComments = memo(function SideComments(props: SideCommentsProps): ReactElement {
 
     const {onClick} = props
-
 
     return (
         <>

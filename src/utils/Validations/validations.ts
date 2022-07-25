@@ -8,7 +8,7 @@ export const EntryFormSchema = yup.object().shape({
 
 
 export const RegistrationFormSchema = yup.object().shape({
-    login: yup.string().required('Обязательное поле'),
+    fullName: yup.string().required('Обязательное поле'),
 }).concat(EntryFormSchema)
 
 

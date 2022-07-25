@@ -9,6 +9,11 @@ import {Controller, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {EntryFormSchema} from "../../../utils/Validations/validations";
 import {ControllerInput} from "../RegistrationForm/RegistrationForm";
+import {UserApi} from "../../../services/api";
+import {LoginDto} from "../../../services/api/types";
+import {setCookie} from "nookies";
+import {useDispatch} from "react-redux";
+import {snackbarActions} from "../../../redux/reducers/snackbar/snackbar-actions";
 
 type EntryFormEmailProps = {
     openMainContent: () => void
@@ -35,15 +40,15 @@ const margin_button = {
 } as const
 
 export const EntryFormEmail = memo(function EntryFormEmail(props: EntryFormEmailProps): ReactElement {
-
     const {openMainContent, is_restored_password_content, is_entry_email_content, openRestoredPasswordForm} = props
-
     const [editTypeInput, setEditTypeInput] = useState(false)
 
-    const {handleSubmit, control, formState,reset} = useForm({
+    const dispatch = useDispatch()
+
+
+    const {handleSubmit, control, formState, reset} = useForm({
         mode: 'onChange',
         resolver: yupResolver(EntryFormSchema),
-
     })
 
     const handlerEditTypeInput = useCallback(
@@ -53,12 +58,26 @@ export const EntryFormEmail = memo(function EntryFormEmail(props: EntryFormEmail
         [setEditTypeInput, editTypeInput],
     );
 
-    const endAdornmentElement = adornmentElement(editTypeInput, handlerEditTypeInput)
 
-    const onSubmit = (data: any) =>{
-        console.log(data)
-        reset()
-    };
+    const onSubmit = useCallback(async (dto: LoginDto) => {
+        try {
+            const data = await UserApi.login(dto)
+            console.log(data, 'data')
+            setCookie(null, 'authToken', data.access_token, {
+                maxAge: 30 * 24 * 60 * 60,
+                path: '/'
+            })
+            if (data) {
+                reset()
+                openMainContent()
+            }
+        } catch (e) {
+            dispatch(snackbarActions.open())
+            dispatch(snackbarActions.setMessage(e.response.data.message))
+        }
+    }, [UserApi, snackbarActions]);
+
+    const endAdornmentElement = adornmentElement(editTypeInput, handlerEditTypeInput)
 
     return (
         <Box className={styles.wrapper}>
@@ -87,7 +106,7 @@ export const EntryFormEmail = memo(function EntryFormEmail(props: EntryFormEmail
                             fullWidth
                             variant={'contained'}
                             color={'primary'}
-                            disabled={!formState.isValid}
+                            disabled={!formState.isValid || formState.isSubmitting}
                     >Войти</Button>
                 </form>
 
@@ -100,7 +119,7 @@ export const EntryFormEmail = memo(function EntryFormEmail(props: EntryFormEmail
                     </Typography>
                 </Box>
             </>}
-            {is_restored_password_content && <RestoredPassword />}
+            {is_restored_password_content && <RestoredPassword/>}
         </Box>
     );
 })

@@ -25,7 +25,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import GoogleIcon from '@mui/icons-material/Google';
 import FacebookIcon from '@mui/icons-material/Facebook';
-import {AuthDialog} from "../AuthDialog/AuthDialog";
+import {AuthDialog} from "../../AuthDialog/AuthDialog";
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 
@@ -42,6 +42,7 @@ export const Header = () => {
     const handleClickDialog = useCallback(() => {
         setOpenAuthDialog(!openAuthDialog)
     }, [setOpenAuthDialog, openAuthDialog])
+
 
     return (
         <Paper classes={rootStyle} elevation={0}>

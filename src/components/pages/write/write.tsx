@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {ReactElement} from "react";
 import {Box, Button} from "@material-ui/core";
-import {WriteForm} from "../../WriteForm/WriteForm";
+import {WriteForm} from "../../ui/WriteForm/WriteForm";
 import {MainLayout} from "../../../layouts/MainLayouts";
 
 

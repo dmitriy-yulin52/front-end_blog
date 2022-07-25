@@ -31,40 +31,40 @@ export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
 
     const openEmailForm = useCallback(() => {
         setFormType('email_form')
-    }, [formType, setFormType])
+    }, [setFormType])
 
     const handlerEntryFormType = useCallback(
         () => {
             setFormType('entry_content')
         },
-        [setFormType, setFormType],
+        [setFormType],
     );
 
     const openMainContent = useCallback(
         () => {
             setFormType('main_content')
         },
-        [setFormType,setFormType],
+        [setFormType],
     );
 
-    const openEntryEmailForm = useCallback(()=> {
+    const openEntryEmailForm = useCallback(() => {
         setFormType('entry_email_form')
-    },[setFormType,formType])
+    }, [setFormType])
 
 
     const openRestoredPasswordForm = useCallback(
         () => {
             setFormType('restored_password_form')
         },
-        [setFormType,setFormType],
+        [setFormType],
     );
-
 
 
     return (
         <Dialog
             aria-labelledby="customized-dialog-title"
             open={openDialog}
+            onClose={closeDialog}
         >
             <Box display={'flex'} justifyContent={'center'} height={'600px'} position={'relative'}>
                 <Box
@@ -80,14 +80,15 @@ export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
                     </Box>
                 </Box>
                 <Box width={'400px'}>
-                    {(is_email_content || is_entry_email_content || is_restored_password_content) && <Box display={'flex'} justifyContent={'flex-start'}>
-                        <Box className={styles.button_reg_from}
-                             onClick={is_email_content ? openMainContent : is_entry_email_content ? handlerEntryFormType: is_restored_password_content ? openEntryEmailForm: null}>
-                            <ChevronLeftIcon/>
-                            <Box fontSize={'16px'} marginLeft={'8px'} color={'grey'}>Назад</Box>
-                        </Box>
-                    </Box>}
-                    {(is_main_content  || is_entry_content) && <Box display={'flex'} justifyContent={'flex-end'}>
+                    {(is_email_content || is_entry_email_content || is_restored_password_content) &&
+                        <Box display={'flex'} justifyContent={'flex-start'}>
+                            <Box className={styles.button_reg_from}
+                                 onClick={is_email_content ? openMainContent : is_entry_email_content ? handlerEntryFormType : is_restored_password_content ? openEntryEmailForm : null}>
+                                <ChevronLeftIcon/>
+                                <Box fontSize={'16px'} marginLeft={'8px'} color={'grey'}>Назад</Box>
+                            </Box>
+                        </Box>}
+                    {(is_main_content || is_entry_content) && <Box display={'flex'} justifyContent={'flex-end'}>
                         <IconButton
                             onClick={closeDialog}
                         >
@@ -103,13 +104,13 @@ export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
                             </Typography>
                         </Box>
                         {is_email_content &&
-                            <RegistrationForm openEntryContent={handlerEntryFormType} />}
-                            <EntryFormEmail
-                                openMainContent={openMainContent}
-                                is_restored_password_content={is_restored_password_content}
-                                is_entry_email_content={is_entry_email_content}
-                                openRestoredPasswordForm={openRestoredPasswordForm}
-                            />
+                            <RegistrationForm openEntryContent={handlerEntryFormType}/>}
+                        <EntryFormEmail
+                            openMainContent={openMainContent}
+                            is_restored_password_content={is_restored_password_content}
+                            is_entry_email_content={is_entry_email_content}
+                            openRestoredPasswordForm={openRestoredPasswordForm}
+                        />
                         {(is_entry_content || is_main_content) && (<><Box
                                 display={'flex'}
                                 flexDirection={'column'}

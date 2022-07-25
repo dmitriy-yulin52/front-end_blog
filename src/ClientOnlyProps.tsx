@@ -1,16 +1,17 @@
-import { useState, useEffect } from "react";
+import {ReactElement, useEffect, useState} from "react";
 
-interface ClientOnlyProps {}
+interface ClientOnlyProps {
+    children: ReactElement
+}
 
-// @ts-ignore
-const ClientOnly = ({ children }) => {
-  const [mounted, setMounted] = useState<boolean>(false);
+const ClientOnly = ({children}: ClientOnlyProps): ReactElement | null => {
+    const [mounted, setMounted] = useState<boolean>(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
-  return mounted ? children : null;
+    return mounted ? children : null;
 };
 
 export default ClientOnly;
