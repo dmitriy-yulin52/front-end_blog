@@ -1,20 +1,19 @@
 import * as React from 'react';
-import {setCookie} from 'nookies';
-import {Box, Button, FormGroup, Input, Link, Typography} from "@material-ui/core";
+import {memo, ReactElement, useCallback, useState} from 'react';
+import {Box, Button, Link, Typography} from "@material-ui/core";
 import {UniversalTextField} from "../../../utils/MaterialComponent";
-import {ChangeEvent, memo, ReactElement, useCallback, useState} from 'react';
 import {adornmentElement} from "../EntryFormEmail/EntryFormEmail";
-import {useForm, Controller} from 'react-hook-form'
+import {Controller, useForm} from 'react-hook-form'
 import {yupResolver} from "@hookform/resolvers/yup";
 import {RegistrationFormSchema} from "../../../utils/Validations/validations";
-import {UserApi} from "../../../services/api";
 import {CreateUserDto} from "../../../services/api/types";
-import axios from "axios";
-import {useDispatch} from "react-redux";
-import {snackbarActions} from "../../../redux/reducers/snackbar/snackbar-actions";
+import {useAction} from "../../../utils/hooks/hooks-utils";
+import {authActions} from "../../../redux/reducers/auth/auth-actions";
+import {useTypedSelector} from "../../../utils/hooks/UseTypedSelector";
 
 type RegistrationFormProps = {
     openEntryContent: () => void
+    openMainContent: () => void
 };
 
 
@@ -27,16 +26,17 @@ function loginEndAdornmentElement(value: string): string {
     return value.length >= 30 ? '0' : String(30 - value.length)
 }
 
-export const RegistrationForm = (props: RegistrationFormProps) => {
-    const {openEntryContent} = props
-    const dispatch = useDispatch()
+export const RegistrationForm = memo(function RegistrationForm(props: RegistrationFormProps): ReactElement {
+    const {openEntryContent, openMainContent} = props
 
     const [editTypeInput, setEditTypeInput] = useState(false)
-    const {handleSubmit, control, formState} = useForm({
+    const {handleSubmit, control, formState, reset} = useForm({
         mode: 'onChange',
         resolver: yupResolver(RegistrationFormSchema),
 
     })
+
+    const onRegister = useAction(authActions.register)
 
     const handlerEditTypeInput = useCallback(
         () => {
@@ -45,20 +45,14 @@ export const RegistrationForm = (props: RegistrationFormProps) => {
         [setEditTypeInput, editTypeInput],
     );
 
+    const onRegisterHandler = useCallback((dto: CreateUserDto) => {
+        onRegister(dto)
+        openMainContent()
+    }, [onRegister, openMainContent])
 
-    const onSubmit = useCallback(async (dto: CreateUserDto) => {
-        try {
-            const data = await UserApi.register(dto)
-            console.log(data, 'data')
-            setCookie(null, 'authToken', data.access_token, {
-                maxAge: 30 * 24 * 60 * 60,
-                path: '/'
-            })
-        } catch (e) {
-            dispatch(snackbarActions.open())
-            dispatch(snackbarActions.setMessage(e.response.data.message))
-        }
-    }, [UserApi,snackbarActions]);
+    const onSubmit = useCallback( (dto: CreateUserDto) => {
+        onRegisterHandler(dto)
+    }, [onRegisterHandler]);
 
     const endAdornmentElement = adornmentElement(editTypeInput, handlerEditTypeInput)
 
@@ -115,7 +109,7 @@ export const RegistrationForm = (props: RegistrationFormProps) => {
             </Box>
         </Box>
     );
-};
+});
 
 
 interface ControllerInputType {

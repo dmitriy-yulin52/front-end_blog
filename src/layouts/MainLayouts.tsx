@@ -1,13 +1,13 @@
 import * as React from 'react';
-import {ReactElement, ReactNode, useCallback, useState} from 'react';
+import {ReactElement, ReactNode, useCallback} from 'react';
 import clsx from 'clsx';
 import {LeftMenu} from "../components/ui/LeftMenu/LeftMenu";
 import styles from './MainLayouts.module.scss'
 import {RightMenu} from "../components/ui/RightMenu/RightMenu";
 import {UniversalSnackBar} from "../components/common/Snackbar/Snackbar";
 import {useTypedSelector} from "../utils/hooks/UseTypedSelector";
-import {useDispatch} from "react-redux";
 import {snackbarActions} from "../redux/reducers/snackbar/snackbar-actions";
+import {useAction} from "../utils/hooks/hooks-utils";
 
 
 interface MainLayoutProps {
@@ -19,19 +19,16 @@ interface MainLayoutProps {
     children: ReactNode
 }
 
-const styleWrapper = {
-    justifyContent: 'center'
-} as const
 
 export const MainLayout = (props: MainLayoutProps): ReactElement => {
     const {hideComments, contentFullWidth, style, children, hideLeftMenu, styleReactNode} = props
 
     const {open,message} = useTypedSelector(state=>state.snackBar)
-    const dispatch = useDispatch()
+    const onCloseSnackBar = useAction(snackbarActions.close)
 
     const onClickCloseSnackBar = useCallback(()=>{
-        dispatch(snackbarActions.close())
-    },[snackbarActions])
+        onCloseSnackBar()
+    },[onCloseSnackBar])
 
     return (
         <div className={clsx(styles.wrapper, style)} style={styleReactNode}>

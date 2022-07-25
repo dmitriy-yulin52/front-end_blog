@@ -1,6 +1,6 @@
 import {Box, Button, IconButton, Link, Typography} from '@material-ui/core';
 import * as React from 'react';
-import {ChangeEvent, memo, ReactElement, useCallback, useState} from 'react';
+import {memo, ReactElement, useCallback, useState} from 'react';
 import styles from './EntryFormEmail.module.scss'
 import {RestoredPassword} from "../RestoredPassword/RestoredPassword";
 import VisibilityIcon from "@material-ui/icons/Visibility";
@@ -9,11 +9,10 @@ import {Controller, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {EntryFormSchema} from "../../../utils/Validations/validations";
 import {ControllerInput} from "../RegistrationForm/RegistrationForm";
-import {UserApi} from "../../../services/api";
 import {LoginDto} from "../../../services/api/types";
-import {setCookie} from "nookies";
 import {useDispatch} from "react-redux";
-import {snackbarActions} from "../../../redux/reducers/snackbar/snackbar-actions";
+import {authActions} from "../../../redux/reducers/auth/auth-actions";
+import {useAction} from "../../../utils/hooks/hooks-utils";
 
 type EntryFormEmailProps = {
     openMainContent: () => void
@@ -43,8 +42,7 @@ export const EntryFormEmail = memo(function EntryFormEmail(props: EntryFormEmail
     const {openMainContent, is_restored_password_content, is_entry_email_content, openRestoredPasswordForm} = props
     const [editTypeInput, setEditTypeInput] = useState(false)
 
-    const dispatch = useDispatch()
-
+    const onLoginHandler = useAction(authActions.login)
 
     const {handleSubmit, control, formState, reset} = useForm({
         mode: 'onChange',
@@ -59,23 +57,9 @@ export const EntryFormEmail = memo(function EntryFormEmail(props: EntryFormEmail
     );
 
 
-    const onSubmit = useCallback(async (dto: LoginDto) => {
-        try {
-            const data = await UserApi.login(dto)
-            console.log(data, 'data')
-            setCookie(null, 'authToken', data.access_token, {
-                maxAge: 30 * 24 * 60 * 60,
-                path: '/'
-            })
-            if (data) {
-                reset()
-                openMainContent()
-            }
-        } catch (e) {
-            dispatch(snackbarActions.open())
-            dispatch(snackbarActions.setMessage(e.response.data.message))
-        }
-    }, [UserApi, snackbarActions]);
+    const onSubmit = useCallback((dto: LoginDto) => {
+        onLoginHandler(dto)
+    }, [onLoginHandler]);
 
     const endAdornmentElement = adornmentElement(editTypeInput, handlerEditTypeInput)
 

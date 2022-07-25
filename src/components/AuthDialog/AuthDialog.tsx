@@ -104,7 +104,7 @@ export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
                             </Typography>
                         </Box>
                         {is_email_content &&
-                            <RegistrationForm openEntryContent={handlerEntryFormType}/>}
+                            <RegistrationForm openEntryContent={handlerEntryFormType} openMainContent={openMainContent}/>}
                         <EntryFormEmail
                             openMainContent={openMainContent}
                             is_restored_password_content={is_restored_password_content}
