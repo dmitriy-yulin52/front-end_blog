@@ -14,7 +14,6 @@ type RegistrationFormProps = {
     openEntryContent: () => void
 };
 
-
 const margin_button = {
     marginTop: '16px'
 } as const
@@ -139,6 +138,5 @@ export function ControllerInput(props: ControllerInputType) {
         />
     }
 }
-
 
 const UniversalTextFieldImpl = memo(UniversalTextField) as typeof UniversalTextField

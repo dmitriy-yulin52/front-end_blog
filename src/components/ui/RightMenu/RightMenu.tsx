@@ -12,7 +12,10 @@ import {useDispatch} from "react-redux";
 import {rightMenuActions} from "../../../redux/reducers/rightMenu-reducer/rightMenu-actions";
 
 const style_typography = {
-    transform: 'rotate(-90deg)', position: 'absolute', top: '115px', left: '-53px'
+    transform: 'rotate(-90deg)',
+    position: 'absolute',
+    top: '115px',
+    left: '-53px'
 } as const
 
 
@@ -27,15 +30,15 @@ export const RightMenu = function RightMenu(): ReactElement {
     }, [dispatch, isVisible])
 
     return <>
-        <Slide direction="left" in={!isVisible} mountOnEnter unmountOnExit>
+        <Slide direction="left" in={isVisible} mountOnEnter unmountOnExit>
             <Box flex={'0 1 400px'}>
                 <SideComments onClick={handlerClick}/>
             </Box>
         </Slide>
         <Box
             className={clsx({
-                [styles.com]: isVisible,
-                [styles.not_com]: !isVisible,
+                [styles.com]: !isVisible,
+                [styles.not_com]: isVisible,
             })}
         >
             <IconButton onClick={handlerClick}>
@@ -49,3 +52,8 @@ export const RightMenu = function RightMenu(): ReactElement {
         </Box>
     </>
 }
+
+
+
+
+

@@ -4,7 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import GoogleIcon from "@mui/icons-material/Google";
-import {memo, ReactElement, useCallback, useEffect, useState} from "react";
+import {memo, ReactElement, useCallback, useEffect, useState, MouseEvent} from "react";
 import styles from './AuthDialog.module.scss'
 import {RegistrationForm} from "./RegistrationForm/RegistrationForm";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -16,6 +16,8 @@ type Props = {
     isAuth: boolean
 };
 
+
+const styled = {display: 'flex'} as const
 
 export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
 
@@ -52,14 +54,12 @@ export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
         setFormType('entry_email_form')
     }, [setFormType])
 
-
     const openRestoredPasswordForm = useCallback(
         () => {
             setFormType('restored_password_form')
         },
         [setFormType],
     );
-
 
     const onCloseDialogHandler = useCallback(() => {
         closeDialog()
@@ -73,13 +73,20 @@ export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
     }, [isAuth])
 
 
+    const onClick = (e: MouseEvent<HTMLElement>) => {
+        console.log('hello')
+        console.log(e, 'value')
+    }
+
+
     return (
         <Dialog
             aria-labelledby="customized-dialog-title"
             open={openDialog}
             onClose={closeDialog}
         >
-            <Box display={'flex'} justifyContent={'center'} height={'600px'} position={'relative'}>
+            <Box  display={'flex'} justifyContent={'center'} height={'600px'} position={'relative'}
+                 onClick={onClick}>
                 <Box
                     width={'200px'}
                     className={styles.left_menu}
@@ -118,7 +125,7 @@ export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
                         </Box>
                         {is_email_content &&
                             <RegistrationForm openEntryContent={handlerEntryFormType}
-                                              />}
+                            />}
                         <EntryFormEmail
                             openMainContent={openMainContent}
                             is_restored_password_content={is_restored_password_content}
