@@ -16,6 +16,7 @@ import {useTypedSelector} from "../../../utils/hooks/UseTypedSelector";
 import {useAction} from "../../../utils/hooks/hooks-utils";
 import {authActions} from "../../../redux/reducers/auth/auth-actions";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import {store} from "../../../redux/store";
 
 const rootStyle = {
     root: styles.root
@@ -34,6 +35,7 @@ export const Header = () => {
         onOpenAuthDialog(true)
     }, [onOpenAuthDialog])
 
+    console.log(user,'headeruser')
 
 
     return (
@@ -64,7 +66,7 @@ export const Header = () => {
             </div>
             <div className="d-flex align-center">
                 {
-                    isAuth
+                    user
                         ?
                         <>
                             <IconButton>

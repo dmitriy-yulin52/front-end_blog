@@ -17,8 +17,6 @@ type Props = {
 };
 
 
-const styled = {display: 'flex'} as const
-
 export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
 
     const {openDialog, closeDialog, isAuth} = props
@@ -72,13 +70,6 @@ export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
         }
     }, [isAuth])
 
-
-    const onClick = (e: MouseEvent<HTMLElement>) => {
-        console.log('hello')
-        console.log(e, 'value')
-    }
-
-
     return (
         <Dialog
             aria-labelledby="customized-dialog-title"
@@ -86,7 +77,7 @@ export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
             onClose={closeDialog}
         >
             <Box  display={'flex'} justifyContent={'center'} height={'600px'} position={'relative'}
-                 onClick={onClick}>
+                 >
                 <Box
                     width={'200px'}
                     className={styles.left_menu}

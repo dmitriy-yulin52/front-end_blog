@@ -1,6 +1,6 @@
 import {CreateUserDto, LoginDto, ResponseUserType} from "../../../services/api/types";
 import {UserApi} from "../../../services/api";
-import {setCookie} from "nookies";
+import {setCookie,parseCookies} from "nookies";
 import {ActionTypeNames, SetIsAuthType, SetIsLoading, SetOpenAuthDialog, SetUserType} from "./auth-types";
 import {snackbarActions} from "../snackbar/snackbar-actions";
 import {Dispatch} from "redux";
@@ -13,7 +13,10 @@ export const authActions = {
     setIsAuth: (auth: boolean):SetIsAuthType => ({type: ActionTypeNames.SET_IS_AUTH, payload: auth}),
     register: registerTC,
     setIsLoading: (loading: boolean): SetIsLoading => ({type: ActionTypeNames.SET_IS_LOADING, payload: loading}),
-    setUser: (dto: ResponseUserType): SetUserType => ({type: ActionTypeNames.SET_USER, payload: dto}),
+    // setUser: (dto: ResponseUserType): SetUserType => ({type: ActionTypeNames.SET_USER, payload: dto}),
+    setUser: (dto: ResponseUserType): SetUserType => {
+        console.log(dto,'dto')
+        return {type: ActionTypeNames.SET_USER, payload: dto}},
     setOpenAuthDialog: (open: boolean): SetOpenAuthDialog => ({
         type: ActionTypeNames.SET_OPEN_AUTH_DIALOG,
         payload: open
@@ -68,7 +71,7 @@ function logout() {
         dispatch(authActions.setIsLoading(true))
         try {
             dispatch(authActions.setIsAuth(false))
-            dispatch(authActions.setUser({}as ResponseUserType))
+            dispatch(authActions.setUser(null))
         } catch (e) {
             dispatch(snackbarActions.open())
             dispatch(snackbarActions.setMessage(e.response.data.message))

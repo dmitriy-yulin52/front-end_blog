@@ -14,6 +14,8 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
                 isLoading: action.payload
             }
         case ActionTypeNames.SET_USER:
+            console.log(state.user,'state.user')
+            console.log(action.payload,'action.payload')
             return {
                 ...state,
                 user: action.payload,

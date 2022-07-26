@@ -77,6 +77,7 @@ type FormItemProps = {
 };
 
 
+// eslint-disable-next-line react/display-name
 export const Form: FC<FromType> = memo((props): ReactElement => {
     const {data, children, errors, onChange, ...rest} = props;
 

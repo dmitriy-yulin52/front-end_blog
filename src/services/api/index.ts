@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from 'axios';
-import {CreateUserDto, LoginDto, ResponseUserType} from "./types";
+import {CreateUserDto, LoginDto, ResponseUserMeType, ResponseUserType} from "./types";
 
 
 const instance = axios.create({
@@ -15,6 +15,14 @@ export const UserApi = {
     },
     async login(dto: LoginDto): Promise<ResponseUserType> {
         const {data} = await instance.post<LoginDto, { data: ResponseUserType }>('/auth/login', dto);
+        return data
+    },
+    async getMe(token:string) {
+        const {data} = await instance.get('/users/me',{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+        });
         return data
     }
 }
