@@ -27,7 +27,7 @@ const masterReducer = (state: RootStateType, action: any) => {
 
 const middleware = [thunk]
 const makeStore = () => createStore(masterReducer, composeWithDevTools(applyMiddleware(...middleware)))
-export const wrapper = createWrapper(makeStore,{debug:true})
+export const wrapper = createWrapper(makeStore)
 
 export const store = makeStore()
 

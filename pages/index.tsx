@@ -18,21 +18,30 @@ export default function Home() {
         </MainLayout>
     );
 }
-
-
-// @ts-ignore
-export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
-
-    try {
-        const {authToken} = parseCookies(context)
-
-       const userData = await UserApi.getMe(authToken)
-        store.dispatch(authActions.setUser(userData))
-
-        return {props:{}}
-    } catch (e) {
-        console.log(e)
-
-        return{props:{}}
-    }
-})
+//
+//
+// // @ts-ignore
+// export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
+//
+//     try {
+//         const {authToken} = parseCookies(context)
+//
+//        // const userData = await UserApi.getMe(authToken)
+//        //  store.dispatch(authActions.setUser(userData))
+//        //  console.log(userData)
+//
+//         if(!authToken){
+//             return {
+//                 redirect:{
+//                     destination:'/signin',permanent:false
+//                 }
+//             }
+//         }
+//
+//         return {props:{}}
+//     } catch (e) {
+//         console.log(e)
+//
+//         return{props:{}}
+//     }
+// })
