@@ -20,10 +20,6 @@ export const WriteComponent: FC<WriteComponentProps> = memo(function WriteCompon
     const [title, setTitle] = useState('')
     const [blocks, setBlocks] = useState<OutputBlockData[]>([])
 
-
-    console.log(blocks,'blocks')
-
-
     const onChangeSetBlocks = useCallback((blocks:OutputBlockData[])=>{
         setBlocks(blocks)
     },[setBlocks])
@@ -37,13 +33,9 @@ export const WriteComponent: FC<WriteComponentProps> = memo(function WriteCompon
     return <MainLayout styleReactNode={style} hideComments hideLeftMenu contentFullWidth>
         <Box height={'100%'} display={'flex'} flexDirection={'column'}>
             <Box flexGrow={1}>
-                <WriteForm placeholder={'Заголовок'} value={title} onChange={onChangeTitleHandler} onSetBlocks={onChangeSetBlocks}/>
+                <WriteForm placeholder={'Заголовок'} value={title} onChange={onChangeTitleHandler} onSetBlocks={onChangeSetBlocks} blocks={blocks}/>
             </Box>
-            <Box display={'flex'} justifyContent={'flex-start'} marginBottom={'24px'}>
-                <Button variant="contained" color="primary">
-                    Опубликовать
-                </Button>
-            </Box>
+
         </Box>
     </MainLayout>
 })
