@@ -44,16 +44,13 @@ export default function Profile(): ReactElement {
     const memomizeDate = useMemo(() => {
         if (!user) {
             return {
-                day: 'test',
-                year: 'test'
+                newDate: 'test'
             }
         }
-
         const date = new Date(user.create)
-        const day = date.getUTCDate();
-        const year = date.getUTCFullYear();
+        const newDate = date.toISOString().split('T')[0]
         return {
-            day, year
+            newDate
         }
 
     }, [user])
@@ -94,7 +91,7 @@ export default function Profile(): ReactElement {
                     </Typography>
                     <Typography>2 подписчика</Typography>
                 </div>
-                <Typography>На проекте с {memomizeDate.day} сен {memomizeDate.year}</Typography>
+                <Typography>На проекте с {memomizeDate.newDate}</Typography>
                 <Tabs className="mt-20" value={0} indicatorColor="primary" textColor="primary">
                     <Tab label="Статьи"/>
                     <Tab label="Комментарии"/>
