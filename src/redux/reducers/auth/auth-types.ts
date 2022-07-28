@@ -1,4 +1,4 @@
-import {ResponseUserMeType, ResponseUserType} from "../../../services/api/types";
+import {ResponseUserMeType, ResponseUserType} from "../../../services/api/user/user-api-types";
 
 
 export enum ActionTypeNames {

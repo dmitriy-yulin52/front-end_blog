@@ -1,13 +1,23 @@
 import * as React from 'react'
-import {ReactElement, useEffect} from "react";
-import EditorJS from '@editorjs/editorjs';
+import {FC, memo, ReactElement, useCallback, useEffect, useRef} from "react";
+import EditorJS, {OutputData} from '@editorjs/editorjs';
+import {OutputBlockData} from "@editorjs/editorjs/types/data-formats/output-data";
+
+type EditorProps = {
+    onSetBlocks: (blocks: OutputBlockData[]) => void
+}
 
 
-export const Editor = function Editor(): ReactElement {
+export const Editor: FC<EditorProps> = memo(function Editor({onSetBlocks}): ReactElement {
+
     useEffect(() => {
         const editor = new EditorJS({
             holder: 'editor',
-            placeholder:'Нажмите Tab для выбора инструмента',
+            placeholder: 'Нажмите Tab для выбора инструмента',
+            onChange: async () => {
+                const {blocks} = await editor.save()
+                onSetBlocks(blocks)
+            }
         })
         return () => {
             editor.isReady
@@ -19,4 +29,4 @@ export const Editor = function Editor(): ReactElement {
     }, [])
 
     return <div id={'editor'}/>
-}
+})

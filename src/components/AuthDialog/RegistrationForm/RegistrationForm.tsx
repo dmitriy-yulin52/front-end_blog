@@ -6,7 +6,7 @@ import {adornmentElement} from "../EntryFormEmail/EntryFormEmail";
 import {Controller, useForm} from 'react-hook-form'
 import {yupResolver} from "@hookform/resolvers/yup";
 import {RegistrationFormSchema} from "../../../utils/Validations/validations";
-import {CreateUserDto} from "../../../services/api/types";
+import {CreateUserDto} from "../../../services/api/user/user-api-types";
 import {useAction} from "../../../utils/hooks/hooks-utils";
 import {authActions} from "../../../redux/reducers/auth/auth-actions";
 
