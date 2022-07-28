@@ -23,7 +23,7 @@ const rootStyle = {
 
 export const Header = () => {
 
-    const {isAuth, openAuthDialog,user} = useTypedSelector(state => state.auth)
+    const {isAuth, openAuthDialog, user} = useTypedSelector(state => state.auth)
     const onOpenAuthDialog = useAction(authActions.setOpenAuthDialog)
     const onLogoutHandler = useAction(authActions.logout)
 
@@ -64,7 +64,7 @@ export const Header = () => {
             </div>
             <div className="d-flex align-center">
                 {
-                    isAuth
+                    user
                         ?
                         <>
                             <IconButton>
@@ -96,7 +96,7 @@ export const Header = () => {
                         </IconButton>
                 }
             </div>
-            <AuthDialog openDialog={openAuthDialog} closeDialog={onCloseAuthDialog} isAuth={isAuth}/>
+            <AuthDialog user={user} openDialog={openAuthDialog} closeDialog={onCloseAuthDialog} isAuth={isAuth}/>
         </Paper>
     );
 };

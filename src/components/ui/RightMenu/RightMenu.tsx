@@ -24,7 +24,6 @@ export const RightMenu = function RightMenu(): ReactElement {
     const {isVisible} = useTypedSelector(state => state.rightMenu)
     const dispatch = useDispatch()
 
-
     const handlerClick = useCallback(() => {
         dispatch(rightMenuActions.setVisible(!isVisible))
     }, [dispatch, isVisible])

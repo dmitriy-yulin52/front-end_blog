@@ -1,4 +1,4 @@
-import {ResponseUserType} from "../../../services/api/types";
+import {ResponseUserMeType, ResponseUserType} from "../../../services/api/user/user-api-types";
 
 
 export enum ActionTypeNames {
@@ -8,18 +8,18 @@ export enum ActionTypeNames {
     SET_OPEN_AUTH_DIALOG = 'auth/SET_OPEN_AUTH_DIALOG',
 }
 
-export const initialState:InitialStateType = {
+export const initialState: InitialStateType = {
     isAuth: false,
-    isLoading:false,
-    user: {} as ResponseUserType,
-    openAuthDialog:false
+    isLoading: false,
+    user: null,
+    openAuthDialog: false
 }
 
 export type InitialStateType = {
     isAuth: boolean
-    isLoading:boolean
-    user: ResponseUserType
-    openAuthDialog:boolean
+    isLoading: boolean
+    user: ResponseUserType & ResponseUserMeType | null
+    openAuthDialog: boolean
 }
 
 export type SetIsAuthType = {
@@ -38,6 +38,7 @@ export type SetOpenAuthDialog = {
     type: ActionTypeNames.SET_OPEN_AUTH_DIALOG,
     payload: boolean
 }
+
 
 
 export type ActionsType = SetIsAuthType | SetUserType | SetIsLoading | SetOpenAuthDialog

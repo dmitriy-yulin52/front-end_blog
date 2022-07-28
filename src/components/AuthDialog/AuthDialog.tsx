@@ -9,19 +9,19 @@ import styles from './AuthDialog.module.scss'
 import {RegistrationForm} from "./RegistrationForm/RegistrationForm";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import {EntryFormEmail} from "./EntryFormEmail/EntryFormEmail";
+import {ResponseUserMeType, ResponseUserType} from "../../services/api/user/user-api-types";
 
 type Props = {
     openDialog: boolean
     closeDialog: () => void
     isAuth: boolean
+    user: ResponseUserType & ResponseUserMeType | null
 };
 
 
-const styled = {display: 'flex'} as const
-
 export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
 
-    const {openDialog, closeDialog, isAuth} = props
+    const {openDialog, closeDialog, isAuth, user} = props
 
     const [formType, setFormType] = useState<'main_content' | 'email_form' | 'restored_password_form' | 'entry_content' | 'entry_email_form'>('main_content')
 
@@ -68,16 +68,11 @@ export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
 
     useEffect(() => {
         if (isAuth) {
-            onCloseDialogHandler()
+            if (!user) {
+                onCloseDialogHandler()
+            }
         }
     }, [isAuth])
-
-
-    const onClick = (e: MouseEvent<HTMLElement>) => {
-        console.log('hello')
-        console.log(e, 'value')
-    }
-
 
     return (
         <Dialog
@@ -85,8 +80,8 @@ export const AuthDialog = memo(function AuthDialog(props: Props): ReactElement {
             open={openDialog}
             onClose={closeDialog}
         >
-            <Box  display={'flex'} justifyContent={'center'} height={'600px'} position={'relative'}
-                 onClick={onClick}>
+            <Box display={'flex'} justifyContent={'center'} height={'600px'} position={'relative'}
+            >
                 <Box
                     width={'200px'}
                     className={styles.left_menu}

@@ -15,3 +15,7 @@ export type ResponseUserType = {
     update: string,
 }
 
+export interface ResponseUserMeType{
+    password: string
+}
+
