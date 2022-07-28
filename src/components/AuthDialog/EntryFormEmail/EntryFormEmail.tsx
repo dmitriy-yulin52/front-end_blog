@@ -9,7 +9,7 @@ import {Controller, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {EntryFormSchema} from "../../../utils/Validations/validations";
 import {ControllerInput} from "../RegistrationForm/RegistrationForm";
-import {LoginDto} from "../../../services/api/types";
+import {LoginDto} from "../../../services/api/user/user-api-types";
 import {useDispatch} from "react-redux";
 import {authActions} from "../../../redux/reducers/auth/auth-actions";
 import {useAction} from "../../../utils/hooks/hooks-utils";

@@ -16,7 +16,6 @@ import {useTypedSelector} from "../../../utils/hooks/UseTypedSelector";
 import {useAction} from "../../../utils/hooks/hooks-utils";
 import {authActions} from "../../../redux/reducers/auth/auth-actions";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import {store} from "../../../redux/store";
 
 const rootStyle = {
     root: styles.root
@@ -24,7 +23,7 @@ const rootStyle = {
 
 export const Header = () => {
 
-    const {isAuth, openAuthDialog,user} = useTypedSelector(state => state.auth)
+    const {isAuth, openAuthDialog, user} = useTypedSelector(state => state.auth)
     const onOpenAuthDialog = useAction(authActions.setOpenAuthDialog)
     const onLogoutHandler = useAction(authActions.logout)
 
@@ -35,7 +34,6 @@ export const Header = () => {
         onOpenAuthDialog(true)
     }, [onOpenAuthDialog])
 
-    console.log(user,'headeruser')
 
 
     return (
@@ -98,7 +96,7 @@ export const Header = () => {
                         </IconButton>
                 }
             </div>
-            <AuthDialog openDialog={openAuthDialog} closeDialog={onCloseAuthDialog} isAuth={isAuth}/>
+            <AuthDialog user={user} openDialog={openAuthDialog} closeDialog={onCloseAuthDialog} isAuth={isAuth}/>
         </Paper>
     );
 };

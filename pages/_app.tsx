@@ -1,17 +1,13 @@
-import {MuiThemeProvider, CssBaseline} from '@material-ui/core';
+import {CssBaseline, MuiThemeProvider} from '@material-ui/core';
 import {theme} from '../src/theme/theme';
 import '../styles/globals.scss';
 import 'macro-css';
 import Head from "next/head";
 import {Header} from "../src/components/ui/Header/Header";
 import ClientOnly from "../src/ClientOnlyProps";
-import {Provider} from 'react-redux';
-import {store, wrapper} from '../src/redux/store';
-import {destroyCookie, parseCookies} from "nookies";
-import {UserApi} from "../src/services/api";
+import {wrapper} from '../src/redux/store';
 import {authActions} from "../src/redux/reducers/auth/auth-actions";
-import {NextPageContext} from "next";
-import Router from "next/router";
+import {GlobalApi} from "../src/services/api/index";
 
 function MyApp({Component, pageProps}) {
     return (
@@ -40,25 +36,28 @@ function MyApp({Component, pageProps}) {
 
 MyApp.getInitialProps = wrapper.getInitialAppProps((store) => async ({ctx, Component}) => {
     try {
-        const {authToken} = parseCookies(ctx)
-
-        const userData = await UserApi.getMe(authToken)
+        const userData = await GlobalApi(ctx).user.getMe()
         store.dispatch(authActions.setUser(userData))
-        console.log(userData, 'usedata')
-        console.log(userData, 'usedata')
-        console.log(ctx, 'ctx')
-
-
+        console.log(ctx.asPath, 'ctx.asPath')
+        console.log(ctx.pathname, 'ctx.pathname')
     } catch (e) {
-        console.log(e)
-
+        if (ctx.asPath === '/write') {
+            ctx.res.writeHead(302, {
+                Location: 'signin'
+            });
+            ctx.res.end();
+        }
+        // store.dispatch(snackbarActions.open())
+        // store.dispatch(snackbarActions.setMessage('Error'))
     }
 
     return {
-        pageProps: Component.getInitialProps ? await Component.getInitialProps({...ctx, store}) : {},
+        pageProps: {
+            ...(Component.getInitialProps ? await Component.getInitialProps({...ctx, store}) : {}),
+            path: ctx.pathname
+        },
 
     }
 })
-
 
 export default wrapper.withRedux(MyApp);
