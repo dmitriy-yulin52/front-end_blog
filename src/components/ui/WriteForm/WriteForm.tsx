@@ -4,37 +4,49 @@ import {Box, Button, Input} from "@material-ui/core";
 import styles from './WriteForm.module.scss'
 import dynamic from "next/dynamic";
 import {OutputBlockData} from "@editorjs/editorjs/types/data-formats/output-data";
-import {Api} from "@mui/icons-material";
-import {GlobalApi} from "../../../services/api";
+import {createPost, updatePost} from "../../../redux/reducers/posts/posts-actions";
+import {PostType} from "../../../redux/reducers/posts/posts-types";
+import {useRouter} from "next/router";
 
 interface WriteFormProps {
-    value?: string
+    title?: string
     placeholder?: string
     onChange: (e: ChangeEvent<HTMLInputElement>) => void
     onSetBlocks: (blocks: OutputBlockData[]) => void
     blocks: OutputBlockData[]
+    isLoading: boolean
+    setIsLoading: (isLoading: boolean) => void
+    data?: PostType
 }
 
 
 const Editor = dynamic(() => import('../../Editor').then((mod) => mod.Editor), {ssr: false})
 
 export const WriteForm = memo(function WriteForm(props: WriteFormProps): ReactElement {
+    const router = useRouter()
+    const {title, placeholder, onChange, onSetBlocks, blocks, isLoading, setIsLoading, data} = props
 
-    const {value, placeholder, onChange, onSetBlocks, blocks} = props
-
-
-    const onAddPost = useCallback(async () => {
+    const onAddPost = async () => {
         try {
-            const post = await GlobalApi().post.create({
+            setIsLoading(true)
+            const obj = {
+                title,
                 body: blocks,
-                title: value
-            })
-
-            console.log(post, 'create post')
+                tags: null
+            }
+            if (!data) {
+                const post = await createPost(obj)
+                console.log(post, 'post')
+                router.push(`/`)
+            } else {
+                await updatePost(data?.id ?? 1, obj)
+            }
         } catch (e) {
             console.warn('Create post', e)
+        } finally {
+            setIsLoading(false)
         }
-    }, [GlobalApi])
+    }
 
 
     return (
@@ -43,17 +55,18 @@ export const WriteForm = memo(function WriteForm(props: WriteFormProps): ReactEl
                 maxRows={21}
                 multiline
                 className={styles.input}
-                value={value}
+                value={title}
                 placeholder={placeholder}
                 fullWidth
                 onChange={onChange}
             />
             <Box fontSize={'18px'}>
-                <Editor onSetBlocks={onSetBlocks}/>
+                <Editor initialValue={blocks} onSetBlocks={onSetBlocks}/>
             </Box>
             <Box display={'flex'} justifyContent={'flex-start'} marginBottom={'24px'}>
-                <Button onClick={onAddPost} variant="contained" color="primary">
-                    Опубликовать
+                <Button disabled={isLoading || (!blocks.length && !title)} onClick={onAddPost} variant="contained"
+                        color="primary">
+                    {data ? 'Сохранить' : 'Опубликовать'}
                 </Button>
             </Box>
         </>

@@ -13,7 +13,7 @@ export const PostActions = () => {
         <Box flex={'0 1 100%'} flexWrap={'wrap'} >
             <Box display={'flex'} justifyContent={'space-between'}>
                 <Box>
-                    <IconButton>
+                    <IconButton >
                         <CommentsIcon/>
                     </IconButton>
                 </Box>

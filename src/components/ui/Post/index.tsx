@@ -12,27 +12,32 @@ const root_styles = {
 
 
 type PostProps = {
-    post?: PostType
+    title?: string
+    description?: string
+    imageUrl?: string
+    views?: number
+    id?: number
+    body?:any
 }
 
 
-export const Post: FC<PostProps> = memo(function Post({post}): ReactElement {
+export const Post: FC<PostProps> = memo(function Post(props): ReactElement {
+
+    const {title, description, imageUrl, views, id,body } = props
+
+    const text = body.map((el)=>el.data.text).join(' ')
+
     return (
         <Paper elevation={0} className="p-20" classes={root_styles}>
             <Typography variant="h5" className={styles.title}>
-                <Link href="/news/test-123">
+                <Link href={`/news/${id}`}>
                     <a>
-                        {post ? post.title : 'title'}
+                        {title ? title : 'title'}
                     </a>
                 </Link>
             </Typography>
-            <Link href="/news/slug/id">
-                <a>
-                    ссылка
-                </a>
-            </Link>
             <Typography className="mt-10 mb-15">
-                {post ? post.body : 'body'}
+                {body ? text : 'body'}
             </Typography>
             <Image
                 src="https://leonardo.osnova.io/a21ca5a9-d95b-560d-9a6f-9fa87eff7fcd/-/preview/600/-/format/webp/"

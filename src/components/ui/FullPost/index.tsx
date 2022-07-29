@@ -4,31 +4,30 @@ import {PostActions} from '../../PostActions';
 import MessageIcon from '@material-ui/icons/TextsmsOutlined';
 import UserAddIcon from '@material-ui/icons/PersonAddOutlined';
 import styles from './FullPost.module.scss';
+import {FC, memo, ReactElement} from "react";
+import {PostType} from "../../../redux/reducers/posts/posts-types";
 
-export const FullPost = () => {
+
+type FullPostProps = {
+    post: PostType
+}
+
+export const FullPost: FC<FullPostProps> = memo(function FullPost({post}): ReactElement {
+
+    const body_text = post.body.map((el) => el.data.text).slice(1).join(' ')
+
     return (
         <Paper elevation={0} className={styles.paper}>
             <Box flex={'0 1 700px'}>
                 <Typography variant="h4" className={styles.title}>
-                    Superjet, летящий из Волгограда в Москву, подал сигнал бедствия. Возможно, в полете
-                    произошла разгерметизация
+                    {post.title}
                 </Typography>
                 <div>
                     <Typography>
-                        Самолет SSJ100, летящий из Волгограда в Москву, подал сигнал бедствия. Об этом сообщает
-                        «Интерфакс» со ссылкой на информированный источник. По данным источника, самолет резко
-                        снизился над Тамбовской областью.
+                        {post.description}
                     </Typography>
                     <Typography>
-                        По данным источника, самолет резко снизился над Тамбовской областью. Возможной причиной
-                        этого собеседник агентства назвал разгерметизацию.
-                    </Typography>
-                    <Typography>Самолет продолжает полет на высоте примерно 3000 метров.</Typography>
-                    <Typography>
-                        Источник не уточнил названия авиакомпании и номера рейса. Судя по данным Flightradar24,
-                        сейчас в небе находится один SSJ100, летящий в Москву из Волгограда. Это — самолет
-                        «Аэрофлота», выполняющий рейс SU6416. На момент написания заметки он уже пересек
-                        Тамбовскую область и подлетает к Москве.
+                        {body_text}
                     </Typography>
                     <Box display={'flex'}>
                         <PostActions/>
@@ -59,4 +58,4 @@ export const FullPost = () => {
             </Box>
         </Paper>
     );
-};
+});
