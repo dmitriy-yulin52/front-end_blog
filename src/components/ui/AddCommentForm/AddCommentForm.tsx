@@ -5,6 +5,9 @@ import styles from './AddCommentForm.module.scss'
 import clsx from "clsx";
 import {GlobalApi} from "../../../services/api";
 import {CommentItemType} from "../../../services/api/comment/comment-api-types";
+import {itemType} from "../../../redux/reducers/comments/comments-types";
+import {useAction, usePartial} from "../../../utils/hooks/hooks-utils";
+import {commentsActions} from "../../../redux/reducers/comments/comments-actions";
 
 
 type AddCommentFormProps = {
@@ -14,6 +17,7 @@ type AddCommentFormProps = {
 export const AddCommentForm = memo(function AddCommentForm(props: AddCommentFormProps): ReactElement {
 
     const {postId, setComment} = props
+
 
     const [focusEffect, setFocusEffect] = useState(false)
     const [blurEffect, setBlurEffect] = useState(false)
@@ -50,8 +54,10 @@ export const AddCommentForm = memo(function AddCommentForm(props: AddCommentForm
         } finally {
             setIsLoading(false)
         }
-
     }
+
+
+
     return (
         <div className={clsx(styles.form, {
             [styles.focus_effect]: focusEffect && blurEffect,

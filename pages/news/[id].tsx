@@ -9,6 +9,9 @@ import {postsActions} from "../../src/redux/reducers/posts/posts-actions";
 import {useTypedSelector} from "../../src/utils/hooks/UseTypedSelector";
 import {commentsActions} from "../../src/redux/reducers/comments/comments-actions";
 import {useAction, usePartial} from "../../src/utils/hooks/hooks-utils";
+import {filteredComments} from "../../src/redux/reducers/comments/comment-selectors";
+import {useComments} from "../../src/utils/hooks/useComments";
+import {useDispatch} from "react-redux";
 
 
 const style = {
@@ -23,20 +26,29 @@ type PostPageType = {
 
 const Post: NextPage<PostPageType> = memo(function Post({post}): ReactElement {
 
-    const {items} = useTypedSelector(state=>state.comment)
+    const {items} = useTypedSelector(state => state.comment)
+
+    const {comments} = useComments(post.id)
+
+    const dispatch = useDispatch()
+
     const onGetAllComments = useAction(commentsActions.getAll)
     const onSetPostItem = useAction(usePartial(postsActions.setPostItem, post))
 
 
     useEffect(() => {
         onSetPostItem()
-        onGetAllComments()
+        // onGetAllComments(post.id)
     }, [])
+    // useEffect(() => {
+    //     dispatch(commentsActions.setItems([...comments.reverse()]))
+    // }, [comments])
+
 
     return (
         <MainLayout styleReactNode={style} contentFullWidth>
             <FullPost post={post}/>
-            <PostComments postId={post.id} comments={items}/>
+            <PostComments postId={post.id} comments={comments}/>
         </MainLayout>
     );
 })

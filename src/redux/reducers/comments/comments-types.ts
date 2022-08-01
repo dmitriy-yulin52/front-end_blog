@@ -1,4 +1,6 @@
 import {CommentItemType} from "../../../services/api/comment/comment-api-types";
+import {ResponseUserType} from "../../../services/api/user/user-api-types";
+import {CommentType} from "../../../components/pages/post/post-comments";
 
 
 export enum ActionNamesType {
@@ -9,15 +11,26 @@ export enum ActionNamesType {
 }
 
 
+export type itemType = {
+    create: string
+    id: number
+    post: { id: number }
+    text: string
+    update: string
+    user: ResponseUserType
+}
+
 export const initialState: InitialStateType = {
-    items: [] as any,
-    isLoading: false
+    items: [],
+    isLoading: false,
+    lastCreateComment: {} as CommentItemType
 }
 
 
 export type InitialStateType = {
-    items: any
+    items: CommentItemType[]
     isLoading: boolean
+    lastCreateComment: CommentItemType
 
 }
 

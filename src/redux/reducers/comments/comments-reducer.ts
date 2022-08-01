@@ -18,7 +18,8 @@ export const commentsReducer = (state: InitialStateType = initialState, action: 
         case ActionNamesType.SET_CREATED_COMMENT:
             return {
                 ...state,
-                items:[action.payload,...state.items]
+                items:[action.payload,...state.items],
+                lastCreateComment:action.payload
             }
         case ActionNamesType.SET_REMOVE_COMMENT:
             return {

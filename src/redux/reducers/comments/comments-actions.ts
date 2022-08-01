@@ -16,11 +16,11 @@ export const commentsActions = {
     remove: (id: number): SetRemoveComment => ({type: ActionNamesType.SET_REMOVE_COMMENT, payload: id})
 }
 
-function getAll() {
+function getAll(postId:number):(dispatch: DispatchType) => Promise<CommentItemType[]> {
     return async (dispatch: DispatchType) => {
         try {
             dispatch(commentsActions.setIsLoading(true))
-            const comments: CommentItemType[] = await GlobalApi().comment.getAll()
+            const comments: CommentItemType[] = await GlobalApi().comment.getAll(postId)
             dispatch(commentsActions.setItems([...comments.reverse()]))
             return comments
         } catch (e) {

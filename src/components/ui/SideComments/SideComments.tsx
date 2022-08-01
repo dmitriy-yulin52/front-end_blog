@@ -3,73 +3,35 @@ import ArrowRightIcon from '@material-ui/icons/NavigateNextOutlined';
 import styles from './SideComments.module.scss';
 import {Box, IconButton, Typography} from "@material-ui/core";
 import Link from "next/link";
+import {useComments} from "../../../utils/hooks/useComments";
 
-const items = [
-    {
-        user: {
-            id: 112,
-            fullname: 'Вася Пупкин',
-        },
-        text: 'Теперь, каждое рабочее утро, после кровати, я перекладываюсь туда спать ещё на часок. Ну и…',
-        post: {
-            id: 1234,
-            title: 'Какая у вас дома ванна?',
-        },
-    },
-    {
-        user: {
-            id: 2,
-            fullname: 'Вася Пупкин',
-        },
-        text: 'Теперь, каждое рабочее утро, после кровати, я перекладываюсь туда спать ещё на часок. Ну и…',
-        post: {
-            id: 123,
-            title: 'Какая у вас дома ванна?',
-        },
-    },
-    {
-        user: {
-            id: 2234,
-            fullname: 'Вася Пупкин',
-        },
-        text: 'Теперь, каждое рабочее утро, после кровати, я ffffffffffffffffffffffffffffffffffffffffffffffперекладываюсь туда спать ещё на часок. Ну и…',
-        post: {
-            id: 1554,
-            title: 'Какая у вас дома ванна?',
-        },
-    },
-];
 
 interface CommentItemProps {
-    user: {
-        id: number
-        fullname: string;
-    };
     text: string;
-    post: {
-        id: number
-        title: string;
-    };
+    title: string;
+    fullName: string
+    userId: number
 }
 
-
 const CommentItem = memo(function SideComments(props: CommentItemProps): ReactElement {
-    const {user, text, post} = props
+
+    const {fullName, text, title,userId} = props
     return (
         <Box className={styles.commentItem}>
             <Box display={'flex'} alignItems={'center'}>
                 <img className={styles.img} src="https://avatarko.ru/img/kartinka/1/avatarko_anonim.jpg"
                      alt={'User avatar'}/>
-                <Link href={`/profile/${user.id}`}>
+
+                <Link href={`/profile/${userId}`}>
                     <a className={styles.link}>
-                        <Typography>{user.fullname}</Typography>
+                        <Typography>{fullName}</Typography>
                     </a>
                 </Link>
             </Box>
             <Box fontSize={'16px'} margin={'8px 0px'}>{text}</Box>
-            <Link href={`/news/${user.id}`}>
-                <a >
-                    <Box fontSize={'15px'} fontWeight={500}>{post.title}</Box>
+            <Link href={`/news/${userId}`}>
+                <a>
+                    <Box fontSize={'15px'} fontWeight={500}>{title}</Box>
                 </a>
             </Link>
         </Box>
@@ -84,6 +46,8 @@ interface SideCommentsProps {
 export const SideComments = memo(function SideComments(props: SideCommentsProps): ReactElement {
 
     const {onClick} = props
+    const {comments} = useComments()
+
 
     return (
         <>
@@ -96,8 +60,14 @@ export const SideComments = memo(function SideComments(props: SideCommentsProps)
                         <ArrowRightIcon/>
                     </IconButton>
                 </Box>
-                {items.map((obj, index) => (
-                    <CommentItem key={obj.user.id - index} {...obj} />
+                {comments.map((obj, index) => (
+                    <CommentItem
+                        key={obj.user.id - index}
+                        fullName={obj.user.fullName}
+                        userId={obj.user.id}
+                        title={obj.post.title}
+                        text={obj.text}
+                    />
                 ))}
             </Box>
         </>
