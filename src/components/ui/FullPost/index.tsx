@@ -6,6 +6,7 @@ import UserAddIcon from '@material-ui/icons/PersonAddOutlined';
 import styles from './FullPost.module.scss';
 import {FC, memo, ReactElement} from "react";
 import {PostType} from "../../../redux/reducers/posts/posts-types";
+import {ResponseUserType} from "../../../services/api/user/user-api-types";
 
 
 type FullPostProps = {
@@ -26,9 +27,7 @@ export const FullPost: FC<FullPostProps> = memo(function FullPost({post}): React
                     <Typography>
                         {post.description}
                     </Typography>
-                    <Typography>
-                        {body_text}
-                    </Typography>
+                    <Typography className={styles.text} dangerouslySetInnerHTML={{__html: body_text}}/>
                     <Box display={'flex'}>
                         <PostActions/>
                     </Box>
@@ -40,8 +39,8 @@ export const FullPost: FC<FullPostProps> = memo(function FullPost({post}): React
                                     src="https://avatarko.ru/img/kartinka/1/avatarko_anonim.jpg"
                                     alt="Avatar"
                                 />
-                                <b>Donnie Darko</b>
-                                <span>+1685</span>
+                                <b>{post.user.fullName}</b>
+                                <span>+{post.views}</span>
                             </div>
                             <div>
                                 <Button variant="contained" className="mr-15">

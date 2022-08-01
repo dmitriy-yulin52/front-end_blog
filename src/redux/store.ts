@@ -33,8 +33,7 @@ export const wrapper = createWrapper(makeStore)
 
 export const store = makeStore()
 
-// @ts-ignore
-export type RootStateType = ReturnType<typeof store.getState>
+export type RootStateType = ReturnType<typeof rootReducer>
 export type DispatchType = typeof store.dispatch;
 
 

@@ -22,10 +22,11 @@ type CommentType = {
 
 interface PostCommentsProps {
     items?: CommentType[]
+    postId:number
 }
 
 export const PostComments = memo(function PostComments(props: PostCommentsProps): ReactElement {
-    const {items} = props
+    const {items,postId} = props
 
     const [activeTab, setActiveTab] = useState(0)
 
@@ -47,7 +48,7 @@ export const PostComments = memo(function PostComments(props: PostCommentsProps)
                 <Tab label="По порядку"/>
             </Tabs>
             <Divider/>
-            <AddCommentForm/>
+            <AddCommentForm postId={postId}/>
             <Box marginBottom={'24px'}/>
             {comments.map((item, index) => <Comment key={item.id - index} createdAt={item.createdAt} user={item.user}
                                                     text={item.text}/>)}

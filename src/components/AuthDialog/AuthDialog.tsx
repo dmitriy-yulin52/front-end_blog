@@ -1,10 +1,10 @@
 import * as React from 'react';
-import {Box, Button, Dialog, DialogContent, IconButton, Link, Typography} from "@material-ui/core";
+import {Box, Button, Dialog , IconButton, Link, Typography} from "@material-ui/core";
 import CloseIcon from "@mui/icons-material/Close";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import GoogleIcon from "@mui/icons-material/Google";
-import {memo, ReactElement, useCallback, useEffect, useState, MouseEvent} from "react";
+import {memo, ReactElement, useCallback, useEffect, useState} from "react";
 import styles from './AuthDialog.module.scss'
 import {RegistrationForm} from "./RegistrationForm/RegistrationForm";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';

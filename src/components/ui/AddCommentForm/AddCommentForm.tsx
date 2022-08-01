@@ -1,17 +1,24 @@
 import * as React from 'react';
-import {ChangeEvent, memo, ReactElement, useCallback, useMemo, useState} from "react";
-import {Box, Button, IconButton, Input, InputAdornment, TextField} from "@material-ui/core";
-import VisibilityIcon from "@material-ui/icons/Visibility";
-import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
+import {ChangeEvent, memo, ReactElement, useCallback, useState} from 'react';
+import {Box, Button, Input} from "@material-ui/core";
 import styles from './AddCommentForm.module.scss'
 import clsx from "clsx";
+import {GlobalApi} from "../../../services/api";
+import {useTypedSelector} from "../../../utils/hooks/UseTypedSelector";
 
 
-type AddCommentFormProps = {};
+type AddCommentFormProps = {
+    postId: number
+};
 export const AddCommentForm = memo(function AddCommentForm(props: AddCommentFormProps): ReactElement {
+
+    const {postId} = props
+
+    const {isAuth} = useTypedSelector(state=>state.auth)
 
     const [focusEffect, setFocusEffect] = useState(false)
     const [blurEffect, setBlurEffect] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const [text, setText] = useState('')
 
 
@@ -30,10 +37,27 @@ export const AddCommentForm = memo(function AddCommentForm(props: AddCommentForm
     }, [text, setText])
 
 
-    const onClickSubmit = useCallback(() => {
-        setText('')
-        setFocusEffect(false)
-    }, [setText, text])
+    const onClickSubmit = async () => {
+
+        try {
+            setIsLoading(true)
+            const comment = GlobalApi().comment.create({
+                postId, text
+            })
+            console.log(comment,'comment')
+            setFocusEffect(false)
+            setText('')
+        } catch (e) {
+            console.warn(e, 'AddCommentForm')
+        } finally {
+            setIsLoading(false)
+        }
+
+    }
+
+    if(!isAuth){
+        return null
+    }
 
 
     return (
@@ -43,6 +67,7 @@ export const AddCommentForm = memo(function AddCommentForm(props: AddCommentForm
         })}>
 
             <Input
+                disabled={isLoading}
                 value={text}
                 onChange={onChangeHandler}
                 onFocus={handleSetClicked}
@@ -54,7 +79,7 @@ export const AddCommentForm = memo(function AddCommentForm(props: AddCommentForm
                 className={styles.input}
             />
             {focusEffect && <Box display={'flex'} justifyContent={'flex-end'}>
-                <Button onClick={onClickSubmit} variant={'contained'} color={'primary'}>Отправить</Button>
+                <Button disabled={isLoading} onClick={onClickSubmit} variant={'contained'} color={'primary'}>Отправить</Button>
 
             </Box>}
         </div>

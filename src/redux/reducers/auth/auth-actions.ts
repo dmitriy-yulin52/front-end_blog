@@ -1,9 +1,7 @@
 import {CreateUserDto, LoginDto, ResponseUserType} from "../../../services/api/user/user-api-types";
-import {UserApi} from "../../../services/api/user/user-api";
-import {setCookie, parseCookies, destroyCookie} from "nookies";
+import {destroyCookie, setCookie} from "nookies";
 import {ActionTypeNames, SetIsAuthType, SetIsLoading, SetOpenAuthDialog, SetUserType} from "./auth-types";
 import {snackbarActions} from "../snackbar/snackbar-actions";
-import {Dispatch} from "redux";
 import {DispatchType} from "../../store";
 import {GlobalApi} from "../../../services/api";
 

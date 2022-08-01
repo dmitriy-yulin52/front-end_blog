@@ -4,6 +4,7 @@ import Image from 'next/image';
 import styles from './Post.module.scss';
 import Link from "next/link";
 import {PostType} from "../../../redux/reducers/posts/posts-types";
+import {OutputBlockData} from "@editorjs/editorjs/types/data-formats/output-data";
 
 
 const root_styles = {
@@ -17,15 +18,13 @@ type PostProps = {
     imageUrl?: string
     views?: number
     id?: number
-    body?:any
+    body?:OutputBlockData[]
 }
 
 
 export const Post: FC<PostProps> = memo(function Post(props): ReactElement {
 
     const {title, description, imageUrl, views, id,body } = props
-
-    const text = body.map((el)=>el.data.text).join(' ')
 
     return (
         <Paper elevation={0} className="p-20" classes={root_styles}>
@@ -37,7 +36,7 @@ export const Post: FC<PostProps> = memo(function Post(props): ReactElement {
                 </Link>
             </Typography>
             <Typography className="mt-10 mb-15">
-                {body ? text : 'body'}
+                {body ? body.map((el)=>el.data.text).join(' ') : 'body'}
             </Typography>
             <Image
                 src="https://leonardo.osnova.io/a21ca5a9-d95b-560d-9a6f-9fa87eff7fcd/-/preview/600/-/format/webp/"

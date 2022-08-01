@@ -19,8 +19,6 @@ const Home: NextPage<HomeProps> = memo(function Home(props): ReactElement {
     console.log(posts, 'posts')
 
 
-
-
     useEffect(() => {
         dispatch(postsActions.setPosts(posts))
     }, [])
@@ -33,7 +31,7 @@ const Home: NextPage<HomeProps> = memo(function Home(props): ReactElement {
                 views={post.views}
                 id={post.id}
                 description={post.body[0]?.data?.text}
-                body={post.body}
+                body={post?.body ?? null}
             />) : []}
         </MainLayout>
     );

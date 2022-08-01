@@ -38,6 +38,7 @@ MyApp.getInitialProps = wrapper.getInitialAppProps((store) => async ({ctx, Compo
     try {
         const userData = await GlobalApi(ctx).user.getMe()
         store.dispatch(authActions.setUser(userData))
+        store.dispatch(authActions.setIsAuth(true))
         console.log(ctx.asPath, 'ctx.asPath')
         console.log(ctx.pathname, 'ctx.pathname')
     } catch (e) {
@@ -47,6 +48,7 @@ MyApp.getInitialProps = wrapper.getInitialAppProps((store) => async ({ctx, Compo
             });
             ctx.res.end();
         }
+        store.dispatch(authActions.setIsAuth(false))
         // store.dispatch(snackbarActions.open())
         // store.dispatch(snackbarActions.setMessage('Error'))
     }

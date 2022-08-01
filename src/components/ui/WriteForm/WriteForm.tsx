@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {ChangeEvent, memo, ReactElement, useCallback} from 'react'
+import {ChangeEvent, memo, ReactElement} from 'react'
 import {Box, Button, Input} from "@material-ui/core";
 import styles from './WriteForm.module.scss'
 import dynamic from "next/dynamic";
@@ -64,7 +64,7 @@ export const WriteForm = memo(function WriteForm(props: WriteFormProps): ReactEl
                 <Editor initialValue={blocks} onSetBlocks={onSetBlocks}/>
             </Box>
             <Box display={'flex'} justifyContent={'flex-start'} marginBottom={'24px'}>
-                <Button disabled={isLoading || (!blocks.length && !title)} onClick={onAddPost} variant="contained"
+                <Button disabled={isLoading || !blocks.length || !title} onClick={onAddPost} variant="contained"
                         color="primary">
                     {data ? 'Сохранить' : 'Опубликовать'}
                 </Button>
