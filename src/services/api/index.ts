@@ -12,11 +12,11 @@ export type ApiReturnType = {
     comment: ReturnType<typeof CommentApi>
 }
 
-const apis = {
-    user: UserApi,
-    post: PostApi,
-    comment: CommentApi,
-}
+   const apis = {
+        user: UserApi,
+        post: PostApi,
+        comment: CommentApi,
+    }
 
 export const GlobalApi = (ctx?: NextPageContext | GetServerSidePropsContext): ApiReturnType => {
     const cookies = ctx ? Cookies.get(ctx) : parseCookies()
@@ -30,6 +30,9 @@ export const GlobalApi = (ctx?: NextPageContext | GetServerSidePropsContext): Ap
             Authorization: `Bearer ${token}`
         }
     })
+
+
+
 
     const result: ApiReturnType = Object.entries(apis).reduce((acc, [key, func]) => {
         return {

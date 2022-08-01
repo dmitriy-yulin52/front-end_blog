@@ -49,8 +49,7 @@ MyApp.getInitialProps = wrapper.getInitialAppProps((store) => async ({ctx, Compo
             ctx.res.end();
         }
         store.dispatch(authActions.setIsAuth(false))
-        // store.dispatch(snackbarActions.open())
-        // store.dispatch(snackbarActions.setMessage('Error'))
+
     }
 
     return {

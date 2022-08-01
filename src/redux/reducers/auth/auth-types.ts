@@ -18,7 +18,7 @@ export const initialState: InitialStateType = {
 export type InitialStateType = {
     isAuth: boolean
     isLoading: boolean
-    user: ResponseUserType & ResponseUserMeType | null
+    user: ResponseUserType & { password: string }
     openAuthDialog: boolean
 }
 
@@ -38,7 +38,6 @@ export type SetOpenAuthDialog = {
     type: ActionTypeNames.SET_OPEN_AUTH_DIALOG,
     payload: boolean
 }
-
 
 
 export type ActionsType = SetIsAuthType | SetUserType | SetIsLoading | SetOpenAuthDialog

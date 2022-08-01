@@ -16,8 +16,6 @@ const Home: NextPage<HomeProps> = memo(function Home(props): ReactElement {
     const {posts} = props
     const dispatch = useDispatch()
 
-    console.log(posts, 'posts')
-
 
     useEffect(() => {
         dispatch(postsActions.setPosts(posts))

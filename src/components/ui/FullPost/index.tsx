@@ -7,6 +7,7 @@ import styles from './FullPost.module.scss';
 import {FC, memo, ReactElement} from "react";
 import {PostType} from "../../../redux/reducers/posts/posts-types";
 import {ResponseUserType} from "../../../services/api/user/user-api-types";
+import {Avatar} from "@mui/material";
 
 
 type FullPostProps = {
@@ -35,10 +36,7 @@ export const FullPost: FC<FullPostProps> = memo(function FullPost({post}): React
                         <Box marginTop={'32px'} marginBottom={'32px'} flex={'0 1 100%'} display={'flex'}
                              justifyContent={'space-between'} flexWrap={'wrap'}>
                             <div className={styles.userInfo}>
-                                <img
-                                    src="https://avatarko.ru/img/kartinka/1/avatarko_anonim.jpg"
-                                    alt="Avatar"
-                                />
+                                <Avatar>{post.user.fullName ? post.user.fullName[0] : 'U'}</Avatar>
                                 <b>{post.user.fullName}</b>
                                 <span>+{post.views}</span>
                             </div>

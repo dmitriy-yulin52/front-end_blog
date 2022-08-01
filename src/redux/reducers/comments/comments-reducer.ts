@@ -15,7 +15,16 @@ export const commentsReducer = (state: InitialStateType = initialState, action: 
                 items: action.payload,
                 isLoading: false
             }
-
+        case ActionNamesType.SET_CREATED_COMMENT:
+            return {
+                ...state,
+                items:[action.payload,...state.items]
+            }
+        case ActionNamesType.SET_REMOVE_COMMENT:
+            return {
+                ...state,
+                items:state.items.filter((el)=>el.id !== action.payload)
+            }
         default:
             return state
     }

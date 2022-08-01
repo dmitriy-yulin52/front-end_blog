@@ -1,11 +1,11 @@
-
-
-
+import {CommentItemType} from "../../../services/api/comment/comment-api-types";
 
 
 export enum ActionNamesType {
     SET_ITEMS = 'comments/SET_ITEMS',
     SET_IS_LOADING = 'comments/SET_IS_LOADING',
+    SET_CREATED_COMMENT = 'comments/SET_CREATED_COMMENT',
+    SET_REMOVE_COMMENT = 'comments/SET_REMOVE_COMMENT',
 }
 
 
@@ -22,15 +22,22 @@ export type InitialStateType = {
 }
 
 
-
 export type SetItemsType = {
-    type:ActionNamesType.SET_ITEMS
-    payload:any[]
+    type: ActionNamesType.SET_ITEMS
+    payload: any[]
 }
 export type SetIsLoading = {
-    type:ActionNamesType.SET_IS_LOADING
-    payload:boolean
+    type: ActionNamesType.SET_IS_LOADING
+    payload: boolean
+}
+export type SetCreatedComment = {
+    type: ActionNamesType.SET_CREATED_COMMENT
+    payload: CommentItemType
+}
+export type SetRemoveComment = {
+    type: ActionNamesType.SET_REMOVE_COMMENT
+    payload: number
 }
 
 
-export type ActionsType = SetItemsType | SetIsLoading
+export type ActionsType = SetItemsType | SetIsLoading | SetCreatedComment | SetRemoveComment

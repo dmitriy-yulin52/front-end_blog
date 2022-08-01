@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Box, Button, Dialog , IconButton, Link, Typography} from "@material-ui/core";
+import {Box, Button, Dialog, IconButton, Link, Typography} from "@material-ui/core";
 import CloseIcon from "@mui/icons-material/Close";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -15,7 +15,7 @@ type Props = {
     openDialog: boolean
     closeDialog: () => void
     isAuth: boolean
-    user: ResponseUserType & ResponseUserMeType | null
+    user: ResponseUserType & { password: string }
 };
 
 

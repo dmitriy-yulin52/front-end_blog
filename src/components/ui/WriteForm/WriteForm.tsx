@@ -4,9 +4,9 @@ import {Box, Button, Input} from "@material-ui/core";
 import styles from './WriteForm.module.scss'
 import dynamic from "next/dynamic";
 import {OutputBlockData} from "@editorjs/editorjs/types/data-formats/output-data";
-import {createPost, updatePost} from "../../../redux/reducers/posts/posts-actions";
 import {PostType} from "../../../redux/reducers/posts/posts-types";
 import {useRouter} from "next/router";
+import {GlobalApi} from "../../../services/api";
 
 interface WriteFormProps {
     title?: string
@@ -24,29 +24,34 @@ const Editor = dynamic(() => import('../../Editor').then((mod) => mod.Editor), {
 
 export const WriteForm = memo(function WriteForm(props: WriteFormProps): ReactElement {
     const router = useRouter()
+
     const {title, placeholder, onChange, onSetBlocks, blocks, isLoading, setIsLoading, data} = props
 
-    const onAddPost = async () => {
-        try {
-            setIsLoading(true)
-            const obj = {
-                title,
-                body: blocks,
-                tags: null
+
+    const onAddPost =
+        async () => {
+            try {
+                setIsLoading(true)
+                if (!data) {
+                     await GlobalApi().post.create({
+                        title,
+                        body: blocks,
+                        tags: null
+                    })
+                    router.push(`/`)
+                } else {
+                    await GlobalApi().post.update(data?.id ?? 1, {
+                        title,
+                        body: blocks,
+                        tags: null
+                    })
+                }
+            } catch (e) {
+                console.warn('Create post', e)
+            } finally {
+                setIsLoading(false)
             }
-            if (!data) {
-                const post = await createPost(obj)
-                console.log(post, 'post')
-                router.push(`/`)
-            } else {
-                await updatePost(data?.id ?? 1, obj)
-            }
-        } catch (e) {
-            console.warn('Create post', e)
-        } finally {
-            setIsLoading(false)
         }
-    }
 
 
     return (

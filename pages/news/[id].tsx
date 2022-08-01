@@ -5,10 +5,10 @@ import {MainLayout} from "../../src/layouts/MainLayouts";
 import {GetServerSideProps, NextPage} from "next";
 import {GlobalApi} from "../../src/services/api";
 import {PostType} from "../../src/redux/reducers/posts/posts-types";
-import {useDispatch} from "react-redux";
 import {postsActions} from "../../src/redux/reducers/posts/posts-actions";
 import {useTypedSelector} from "../../src/utils/hooks/UseTypedSelector";
 import {commentsActions} from "../../src/redux/reducers/comments/comments-actions";
+import {useAction, usePartial} from "../../src/utils/hooks/hooks-utils";
 
 
 const style = {
@@ -18,25 +18,25 @@ const style = {
 
 type PostPageType = {
     post: PostType
-    comments:any
 }
 
 
-const Post: NextPage<PostPageType> = memo(function Post({post,comments}): ReactElement {
+const Post: NextPage<PostPageType> = memo(function Post({post}): ReactElement {
 
-    const dispatch = useDispatch()
+    const {items} = useTypedSelector(state=>state.comment)
+    const onGetAllComments = useAction(commentsActions.getAll)
+    const onSetPostItem = useAction(usePartial(postsActions.setPostItem, post))
 
-    console.log(comments,'comments')
 
     useEffect(() => {
-        dispatch(postsActions.setPostItem(post))
-        dispatch(commentsActions.setItems(comments))
+        onSetPostItem()
+        onGetAllComments()
     }, [])
 
     return (
         <MainLayout styleReactNode={style} contentFullWidth>
             <FullPost post={post}/>
-            <PostComments postId={post.id}/>
+            <PostComments postId={post.id} comments={items}/>
         </MainLayout>
     );
 })
@@ -46,12 +46,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     try {
         const id = Number(ctx.params.id)
         const post = await GlobalApi(ctx).post.getOne(id)
-        const comments = await GlobalApi(ctx).comment.getAll()
 
         return {
             props: {
                 post,
-                comments
             }
         }
     } catch (e) {

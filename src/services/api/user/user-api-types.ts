@@ -13,6 +13,7 @@ export type ResponseUserType = {
     fullName: string,
     id: number
     update: string,
+    password:string
 }
 
 export interface ResponseUserMeType{

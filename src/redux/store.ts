@@ -6,12 +6,14 @@ import {authReducer} from "./reducers/auth/auth-reducer";
 import {createWrapper, HYDRATE} from "next-redux-wrapper";
 import {composeWithDevTools} from "redux-devtools-extension";
 import {postsReducer} from "./reducers/posts/posts-reducer";
+import {commentsReducer} from "./reducers/comments/comments-reducer";
 
 export const rootReducer = combineReducers({
     snackBar: snackbarReducer,
     rightMenu: rightMenuReducer,
     auth: authReducer,
-    posts: postsReducer
+    posts: postsReducer,
+    comment:commentsReducer
 })
 
 

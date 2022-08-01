@@ -4,17 +4,16 @@ import {Box, Button, Input} from "@material-ui/core";
 import styles from './AddCommentForm.module.scss'
 import clsx from "clsx";
 import {GlobalApi} from "../../../services/api";
-import {useTypedSelector} from "../../../utils/hooks/UseTypedSelector";
+import {CommentItemType} from "../../../services/api/comment/comment-api-types";
 
 
 type AddCommentFormProps = {
     postId: number
+    setComment: (comment: CommentItemType) => void
 };
 export const AddCommentForm = memo(function AddCommentForm(props: AddCommentFormProps): ReactElement {
 
-    const {postId} = props
-
-    const {isAuth} = useTypedSelector(state=>state.auth)
+    const {postId, setComment} = props
 
     const [focusEffect, setFocusEffect] = useState(false)
     const [blurEffect, setBlurEffect] = useState(false)
@@ -38,13 +37,12 @@ export const AddCommentForm = memo(function AddCommentForm(props: AddCommentForm
 
 
     const onClickSubmit = async () => {
-
         try {
             setIsLoading(true)
-            const comment = GlobalApi().comment.create({
+            const comment = await GlobalApi().comment.create({
                 postId, text
             })
-            console.log(comment,'comment')
+            setComment(comment)
             setFocusEffect(false)
             setText('')
         } catch (e) {
@@ -54,12 +52,6 @@ export const AddCommentForm = memo(function AddCommentForm(props: AddCommentForm
         }
 
     }
-
-    if(!isAuth){
-        return null
-    }
-
-
     return (
         <div className={clsx(styles.form, {
             [styles.focus_effect]: focusEffect && blurEffect,
@@ -79,7 +71,8 @@ export const AddCommentForm = memo(function AddCommentForm(props: AddCommentForm
                 className={styles.input}
             />
             {focusEffect && <Box display={'flex'} justifyContent={'flex-end'}>
-                <Button disabled={isLoading} onClick={onClickSubmit} variant={'contained'} color={'primary'}>Отправить</Button>
+                <Button disabled={isLoading} onClick={onClickSubmit} variant={'contained'}
+                        color={'primary'}>Отправить</Button>
 
             </Box>}
         </div>

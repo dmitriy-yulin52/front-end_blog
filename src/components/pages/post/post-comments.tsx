@@ -5,36 +5,40 @@ import {Comment} from "../../ui/Comment";
 import styles from './post-comments.module.scss'
 import {AddCommentForm} from "../../ui/AddCommentForm/AddCommentForm";
 import data from '../../../../data'
-
-type UserType = {
-    fullname: string
-    avatarUrl: string
-}
+import {useAction, usePartial} from "../../../utils/hooks/hooks-utils";
+import {commentsActions} from "../../../redux/reducers/comments/comments-actions";
+import {CommentItemType} from "../../../services/api/comment/comment-api-types";
+import {useTypedSelector} from "../../../utils/hooks/UseTypedSelector";
+import {ResponseUserType} from "../../../services/api/user/user-api-types";
 
 
 type CommentType = {
     text: string
     id: number
     createdAt: string
-    user: UserType
+    user: ResponseUserType
 }
 
 
 interface PostCommentsProps {
-    items?: CommentType[]
-    postId:number
+    comments?: CommentType[]
+    postId: number
 }
 
 export const PostComments = memo(function PostComments(props: PostCommentsProps): ReactElement {
-    const {items,postId} = props
+    const {postId, comments} = props
+
+    const {isAuth, user} = useTypedSelector(state => state.auth)
+    const onSetCreatedComment = useAction(usePartial(commentsActions.setCreatedComment))
 
     const [activeTab, setActiveTab] = useState(0)
-
-    const comments = data.module.comments[activeTab ? 'new' : 'popular']
-
     const handlerActiveTab = useCallback((_, value) => {
         setActiveTab(value)
     }, [activeTab, setActiveTab])
+
+    const onClickHandler = useCallback((comment: CommentItemType) => {
+        onSetCreatedComment(comment)
+    }, [onSetCreatedComment])
 
 
     return <Paper elevation={0} className={styles.wrapper}>
@@ -48,10 +52,16 @@ export const PostComments = memo(function PostComments(props: PostCommentsProps)
                 <Tab label="По порядку"/>
             </Tabs>
             <Divider/>
-            <AddCommentForm postId={postId}/>
+            {isAuth && <AddCommentForm setComment={onClickHandler} postId={postId}/>}
             <Box marginBottom={'24px'}/>
-            {comments.map((item, index) => <Comment key={item.id - index} createdAt={item.createdAt} user={item.user}
-                                                    text={item.text}/>)}
+            {comments.map((item, index) => <Comment
+                key={item.text}
+                createdAt={item.createdAt}
+                user={item.user}
+                text={item.text}
+                curUserId={user?.id}
+                id={item.id}
+            />)}
         </Box>
     </Paper>
 })
