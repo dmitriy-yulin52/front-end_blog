@@ -8,11 +8,13 @@ import {useTypedSelector} from "./UseTypedSelector";
 
 type UseCommentsType = {
     comments: CommentItemType[]
-    setComments: Dispatch<SetStateAction<CommentItemType[]>>
+    // setComments: Dispatch<SetStateAction<CommentItemType[]>>
+    setComments: any
 }
 
 export const useComments = (postId?: number): UseCommentsType => {
     const [comments, setComments] = useState<CommentItemType[]>([])
+    console.log(comments,'comments no hooks')
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -20,8 +22,9 @@ export const useComments = (postId?: number): UseCommentsType => {
             try {
                 dispatch(commentsActions.setIsLoading(true))
                 const comments: CommentItemType[] = await GlobalApi().comment.getAll(postId)
-                setComments(comments)
+                console.log(comments,'comments hooks in sync')
                 dispatch(commentsActions.setItems([...comments.reverse()]))
+                setComments(comments)
             } catch (e) {
                 console.warn(e)
             } finally {
@@ -29,7 +32,7 @@ export const useComments = (postId?: number): UseCommentsType => {
             }
         })()
 
-    }, [])
+    }, [setComments])
 
     return {comments, setComments}
 }

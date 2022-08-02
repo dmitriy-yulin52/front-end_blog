@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {memo, ReactElement, useCallback, useState} from 'react'
+import {memo, ReactElement, useCallback, useEffect, useState} from 'react'
 import {Box, Divider, Paper, Tab, Tabs, Typography} from "@material-ui/core";
 import {Comment} from "../../ui/Comment";
 import styles from './post-comments.module.scss'
@@ -9,7 +9,6 @@ import {commentsActions} from "../../../redux/reducers/comments/comments-actions
 import {CommentItemType} from "../../../services/api/comment/comment-api-types";
 import {useTypedSelector} from "../../../utils/hooks/UseTypedSelector";
 import {ResponseUserType} from "../../../services/api/user/user-api-types";
-import {itemType} from "../../../redux/reducers/comments/comments-types";
 
 
 export type CommentType = {
@@ -24,15 +23,17 @@ export type CommentType = {
 
 
 interface PostCommentsProps {
-    comments?: itemType[]
     postId: number
 }
 
 export const PostComments = memo(function PostComments(props: PostCommentsProps): ReactElement {
-    const {postId, comments} = props
+    const {postId} = props
 
     const {isAuth, user} = useTypedSelector(state => state.auth)
+    const {items} = useTypedSelector(state => state.comment)
+
     const onSetCreatedComment = useAction(usePartial(commentsActions.setCreatedComment))
+    const onGetAllComments = useAction(commentsActions.getAll)
 
 
     const [activeTab, setActiveTab] = useState(0)
@@ -43,6 +44,11 @@ export const PostComments = memo(function PostComments(props: PostCommentsProps)
     const onClickHandler = useCallback((comment: CommentItemType) => {
         onSetCreatedComment(comment)
     }, [onSetCreatedComment])
+
+
+    useEffect(() => {
+        onGetAllComments(postId)
+    }, [])
 
 
     return <Paper elevation={0} className={styles.wrapper}>
@@ -63,8 +69,8 @@ export const PostComments = memo(function PostComments(props: PostCommentsProps)
                 />
             }
             <Box marginBottom={'24px'}/>
-            {comments.length === 0 ? <Typography>Нет комментариев</Typography> : comments.map((item, index) => <Comment
-                key={item.text}
+            {items.length === 0 ? <Typography>Нет комментариев</Typography> : items.map((item, index) => <Comment
+                key={item.create}
                 createdAt={item?.user?.create}
                 user={item.user}
                 text={item.text}

@@ -3,7 +3,7 @@ import {CommentItemType, CreateCommentDto} from "./comment-api-types";
 
 
 export const CommentApi = (instance: AxiosInstance) => ({
-    async getAll(postId: number): Promise<CommentItemType[]> {
+    async getAll(postId?: number): Promise<CommentItemType[]> {
         const {data} = await instance.get<CommentItemType[]>('/comments', {params: {postId}});
         return data
     },

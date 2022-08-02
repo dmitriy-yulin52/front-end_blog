@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {ChangeEvent, useCallback, useEffect, useState} from 'react';
 import {Button, IconButton, Paper} from '@material-ui/core';
 import {
     ExpandMoreOutlined as ArrowBottom,
@@ -16,12 +16,29 @@ import {useTypedSelector} from "../../../utils/hooks/UseTypedSelector";
 import {useAction} from "../../../utils/hooks/hooks-utils";
 import {authActions} from "../../../redux/reducers/auth/auth-actions";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import {List, ListItem, ListItemButton} from "@mui/material";
+import {PostType} from "../../../redux/reducers/posts/posts-types";
+import {GlobalApi} from "../../../services/api";
 
 const rootStyle = {
     root: styles.root
 } as const
 
+
+type SearchPostType = {
+    items: PostType[]
+    total: number
+}
+
 export const Header = () => {
+
+
+    const [searchValue, setSearchValue] = useState<string>('')
+    const [posts, setPosts] = useState<SearchPostType>(undefined)
+
+    const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(e.currentTarget.value)
+    }, [setSearchValue])
 
     const {isAuth, openAuthDialog, user} = useTypedSelector(state => state.auth)
     const onOpenAuthDialog = useAction(authActions.setOpenAuthDialog)
@@ -34,6 +51,22 @@ export const Header = () => {
         onOpenAuthDialog(true)
     }, [onOpenAuthDialog])
 
+
+    const onChange = async (e: ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(e.currentTarget.value)
+        try {
+            const posts = await GlobalApi().post.search({title: e.currentTarget.value})
+            setPosts(posts)
+            console.log(posts, 'posts')
+        } catch (e) {
+            console.log(e, 'e')
+        }
+    }
+
+
+    const onResetSearchValue = useCallback(()=>{
+        setSearchValue('')
+    },[setSearchValue])
 
 
     return (
@@ -53,7 +86,17 @@ export const Header = () => {
                 </Link>
                 <div className={styles.searchBlock}>
                     <SearchIcon/>
-                    <input placeholder="Поиск"/>
+                    <input value={searchValue} onChange={onChange} placeholder="Поиск"/>
+                    {searchValue && <Paper className={styles.searchBlockPopup} elevation={1}>
+                        <List>
+                            {posts ? posts.items.length === 0 ?
+                                <ListItem>Ничего не найдено</ListItem> : posts.items.map((post) => (
+                                    <Link key={post.create} href={`news/${post.id}`} ><a><ListItem onClick={onResetSearchValue} >
+                                        {post.title}
+                                    </ListItem></a></Link>
+                                )) : null}
+                        </List>
+                    </Paper>}
                 </div>
                 <Link href={'/write'}>
                     <Button variant="contained" className={styles.penButton}>

@@ -4,10 +4,12 @@ import {PostActions} from '../../PostActions';
 import MessageIcon from '@material-ui/icons/TextsmsOutlined';
 import UserAddIcon from '@material-ui/icons/PersonAddOutlined';
 import styles from './FullPost.module.scss';
-import {FC, memo, ReactElement} from "react";
+import {FC, memo, ReactElement, useEffect} from "react";
 import {PostType} from "../../../redux/reducers/posts/posts-types";
 import {ResponseUserType} from "../../../services/api/user/user-api-types";
 import {Avatar} from "@mui/material";
+import {useAction, usePartial} from "../../../utils/hooks/hooks-utils";
+import {postsActions} from "../../../redux/reducers/posts/posts-actions";
 
 
 type FullPostProps = {
@@ -16,7 +18,13 @@ type FullPostProps = {
 
 export const FullPost: FC<FullPostProps> = memo(function FullPost({post}): ReactElement {
 
+    const onSetPostItem = useAction(usePartial(postsActions.setPostItem, post))
     const body_text = post.body.map((el) => el.data.text).slice(1).join(' ')
+
+    useEffect(() => {
+        onSetPostItem()
+    }, [])
+
 
     return (
         <Paper elevation={0} className={styles.paper}>

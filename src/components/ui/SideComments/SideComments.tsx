@@ -1,39 +1,49 @@
-import React, {memo, ReactElement} from 'react';
+import React, {memo, ReactElement, useEffect, useState} from 'react';
 import ArrowRightIcon from '@material-ui/icons/NavigateNextOutlined';
 import styles from './SideComments.module.scss';
 import {Box, IconButton, Typography} from "@material-ui/core";
 import Link from "next/link";
-import {useComments} from "../../../utils/hooks/useComments";
+import {CommentItemType} from "../../../services/api/comment/comment-api-types";
+import {GlobalApi} from "../../../services/api";
+import {Avatar} from "@mui/material";
 
 
 interface CommentItemProps {
     text: string;
     title: string;
     fullName: string
+    createdPost: string
     userId: number
+    postId: number
 }
+
+const style = {
+    marginRight: '8px'
+} as const
 
 const CommentItem = memo(function SideComments(props: CommentItemProps): ReactElement {
 
-    const {fullName, text, title,userId} = props
+    const {fullName, text, title, userId, createdPost, postId} = props
     return (
         <Box className={styles.commentItem}>
             <Box display={'flex'} alignItems={'center'}>
-                <img className={styles.img} src="https://avatarko.ru/img/kartinka/1/avatarko_anonim.jpg"
-                     alt={'User avatar'}/>
-
+                <Avatar style={style}>{text?.[0] ?? 'U'}</Avatar>
                 <Link href={`/profile/${userId}`}>
                     <a className={styles.link}>
                         <Typography>{fullName}</Typography>
                     </a>
+
                 </Link>
             </Box>
+            <Typography>{createdPost}</Typography>
             <Box fontSize={'16px'} margin={'8px 0px'}>{text}</Box>
-            <Link href={`/news/${userId}`}>
+            <Link href={`/news/${postId}`}>
                 <a>
                     <Box fontSize={'15px'} fontWeight={500}>{title}</Box>
                 </a>
             </Link>
+            <Box fontSize={'15px'} fontWeight={500}>Пост # {postId}</Box>
+
         </Box>
     );
 });
@@ -46,7 +56,16 @@ interface SideCommentsProps {
 export const SideComments = memo(function SideComments(props: SideCommentsProps): ReactElement {
 
     const {onClick} = props
-    const {comments} = useComments()
+    const [items, setItems] = useState<CommentItemType[]>([])
+
+    console.log(items, 'items')
+
+    useEffect(() => {
+        (async () => {
+            const comments: CommentItemType[] = await GlobalApi().comment.getAll()
+            setItems(comments)
+        })()
+    }, [])
 
 
     return (
@@ -60,13 +79,15 @@ export const SideComments = memo(function SideComments(props: SideCommentsProps)
                         <ArrowRightIcon/>
                     </IconButton>
                 </Box>
-                {comments.map((obj, index) => (
+                {items.map((obj, index) => (
                     <CommentItem
                         key={obj.user.id - index}
                         fullName={obj.user.fullName}
                         userId={obj.user.id}
                         title={obj.post.title}
                         text={obj.text}
+                        createdPost={obj.create}
+                        postId={obj.post.id}
                     />
                 ))}
             </Box>

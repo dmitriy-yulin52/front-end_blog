@@ -16,7 +16,7 @@ export const commentsActions = {
     remove: (id: number): SetRemoveComment => ({type: ActionNamesType.SET_REMOVE_COMMENT, payload: id})
 }
 
-function getAll(postId:number):(dispatch: DispatchType) => Promise<CommentItemType[]> {
+function getAll(postId?:number):(dispatch: DispatchType) => Promise<CommentItemType[]> {
     return async (dispatch: DispatchType) => {
         try {
             dispatch(commentsActions.setIsLoading(true))
